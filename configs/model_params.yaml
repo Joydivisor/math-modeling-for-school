@@ -2,29 +2,65 @@ reproducibility:
   random_seed: 20260729
   data_cutoff: "2026-07-29"
 
+model_selection:
+  status: not_started
+  current_phase: data_acquisition_and_audit
+  prerequisite: p0_data_audit_passed
+  rule: select_by_data_diagnostics_small_scale_validation_and_rolling_backtest
+  maximum_independent_model_systems_per_question: 2
+  evidence_required:
+    - sample_size_and_common_window
+    - missingness_and_revision_status
+    - stationarity_cointegration_and_structural_breaks_as_applicable
+    - rolling_or_holdout_performance
+    - residual_and_stability_diagnostics
+    - interpretability_and_counterfactual_feasibility
+
 q1:
-  target: brent_log_return
-  main_model: regime_switching_arimax_garch_x
+  selection_status: provisional
+  target_candidates:
+    - brent_price_level
+    - brent_log_return
+    - brent_realized_volatility
+  candidate_model_families:
+    - exogenous_time_series_with_conditional_volatility
+    - state_space_or_nonlinear_forecasting
   counterfactual_train_end: "2026-02-27"
   rolling_forecast_origins: true
-  forecast_horizons_days: [1, 5, 10, 20]
+  provisional_forecast_horizons_days: [1, 5, 10, 20]
   confidence_levels: [0.80, 0.95]
-  candidate_regimes: [2, 3]
-  metrics: [MAE, RMSE, MASE, QLIKE, coverage]
+  candidate_metrics: [MAE, RMSE, MASE, QLIKE, coverage]
+  selection_dependencies:
+    - structural_break_audit
+    - volatility_clustering_audit
+    - exogenous_variable_availability
+    - no_future_information_leakage
 
 q2:
-  main_model: nonlinear_ardl_ecm
-  validation_model: local_projection
-  frequency: monthly
-  max_lag_months: 12
-  response_horizons_months: [0, 1, 3, 6, 12, 18, 24]
-  shock_definition: one_standard_deviation_brent_cny_return
-  metrics: [AIC, BIC, residual_whiteness, stability]
+  selection_status: provisional
+  candidate_model_families:
+    - long_short_run_asymmetric_transmission
+    - dynamic_impulse_response
+  preferred_frequency_if_supported: monthly
+  provisional_max_lag_months: 12
+  provisional_response_horizons_months: [0, 1, 3, 6, 12, 18, 24]
+  shock_definition_candidates:
+    - one_standard_deviation_brent_cny_return
+    - positive_and_negative_partial_sums
+  candidate_metrics: [AIC, BIC, residual_whiteness, stability]
+  selection_dependencies:
+    - common_monthly_sample
+    - stationarity_and_cointegration_audit
+    - lag_order_stability
+    - mixed_frequency_decision
 
 q3:
-  main_model: panel_local_projection
-  frequency: quarterly
-  response_horizons_quarters: [0, 1, 2, 4, 6, 8]
+  selection_status: provisional
+  candidate_model_families:
+    - cross_country_dynamic_panel
+    - china_policy_counterfactual
+  preferred_frequency_if_supported: quarterly
+  provisional_response_horizons_quarters: [0, 1, 2, 4, 6, 8]
   core_peer_candidates:
     - China
     - India
@@ -41,8 +77,13 @@ q3:
     - macro_data_available_through_2026Q2_or_latest_common_quarter
     - energy_exposure_data_available
     - policy_response_observable
-  interactions:
+  candidate_interactions:
     - shock_x_policy_buffer
     - shock_x_import_dependency
     - shock_x_oil_intensity
     - shock_x_supplier_hhi
+  selection_dependencies:
+    - latest_common_quarter
+    - comparable_variable_definitions
+    - observable_policy_timing
+    - sufficient_cross_section_and_time_dimension

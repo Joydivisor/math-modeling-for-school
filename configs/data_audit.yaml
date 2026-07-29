@@ -1,0 +1,68 @@
+phase:
+  name: data_acquisition_and_audit
+  status: not_started
+  data_cutoff: "2026-07-29"
+  next_phase: model_selection
+
+admission:
+  required_priority: P0
+  source:
+    official_or_primary_preferred: true
+    source_url_required: true
+    access_date_required: true
+    license_or_terms_required: true
+    sha256_required_for_frozen_files: true
+
+  coverage:
+    core_series_minimum_ratio: 0.95
+    event_window_minimum_ratio: 1.00
+    do_not_count_structural_non_reporting_as_random_missing: true
+
+  integrity:
+    duplicate_key_rows_allowed: false
+    unit_must_be_verified: true
+    frequency_must_be_verified: true
+    revisions_must_be_recorded: true
+    silent_imputation_allowed: false
+    original_values_must_be_preserved: true
+
+  temporal:
+    q1_pre_event_train_end: "2026-02-27"
+    q1_event_start: "2026-02-28"
+    q1_event_end: "2026-07-29"
+    q2_latest_required_quarter: "2026-Q2"
+    q3_use_latest_common_quarter: true
+    preserve_ragged_edge_information: true
+
+question_checks:
+  q1:
+    - price_calendar_and_timezone
+    - pre_event_sample_length
+    - event_window_coverage
+    - structural_break_candidates
+    - exogenous_series_publication_lags
+  q2:
+    - common_monthly_window
+    - real_versus_nominal_definition
+    - seasonal_adjustment_status
+    - monthly_quarterly_alignment
+    - customs_and_macro_revision_status
+  q3:
+    - peer_country_definition_comparability
+    - latest_common_quarter
+    - import_dependency_denominator
+    - hs_code_consistency
+    - policy_timing_and_classification
+
+gate:
+  pass_only_if:
+    - all_p0_variables_have_disposition
+    - all_blockers_have_owner_or_fallback
+    - frozen_files_have_hashes
+    - no_unresolved_unit_or_frequency_conflict
+    - question_checks_are_documented
+  on_pass:
+    - update_agents_phase_to_model_selection
+    - update_readme_status
+    - set_model_selection_status_to_in_progress
+    - freeze_candidate_model_decision_evidence
