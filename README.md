@@ -57,11 +57,12 @@ support/        AI 工具使用说明等支撑材料
 
 ## 快速校验
 
-本阶段只使用 Python 标准库即可校验元数据：
+元数据和 GitHub 固定快照可直接校验；EIA 原始 XLS/PDF/ZIP 审计需先安装 `requirements.txt` 并按 `data/raw/README.md` 放置哈希匹配的本地原文件：
 
 ```powershell
 python -m src.data.validate_metadata
 python -m src.data.audit_github_snapshot --check-only
+python -m src.data.run_data_audit --check-only
 python -m unittest discover -s tests -v
 ```
 
@@ -85,6 +86,8 @@ python -m pip install -r requirements.txt
 - [x] 初版数据字典、来源登记、事件时间线
 - [x] 数据优先阶段规则与审计准入标准
 - [x] 队友 GitHub 日频数据首轮快照、官方逐值比对与结构审计
+- [x] EIA 美国库存、全球供需和海湾停产量首轮快照与发布滞后审计
+- [x] 记录霍尔木兹流量公开官方序列缺失及付费/代理备选路线
 - [ ] 刷新存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
 - [ ] P0 数据下载与字段核验
 - [ ] P0 数据审计通过并冻结候选模型

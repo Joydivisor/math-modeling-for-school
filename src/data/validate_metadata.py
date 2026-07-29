@@ -403,7 +403,13 @@ def validate_audit_outputs(source_ids: set[str]) -> list[ValidationIssue]:
                     "retrieved_at_utc and license_or_terms are required",
                 )
             )
-        if not (PROJECT_ROOT / row["local_path"]).exists():
+        raw_is_intentionally_untracked = (
+            row["status"] == "audited_external_not_committed"
+        )
+        if (
+            not raw_is_intentionally_untracked
+            and not (PROJECT_ROOT / row["local_path"]).exists()
+        ):
             issues.append(
                 ValidationIssue(
                     "download_manifest.csv",
