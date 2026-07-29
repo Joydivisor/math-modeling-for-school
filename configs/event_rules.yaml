@@ -1,0 +1,43 @@
+cutoff:
+  date: "2026-07-29"
+  rule: Events after the cutoff are excluded from the frozen competition dataset.
+
+verification:
+  minimum_independent_sources: 2
+  minimum_primary_sources: 1
+  use_occurrence_date_not_publication_date: true
+  keep_announcement_and_implementation_separate: true
+  retain_original_timezone: true
+  normalized_timezone: UTC
+
+causal_encoding:
+  treatment_types:
+    - war_start
+    - chokepoint_closure
+    - emergency_stock_announcement
+    - emergency_stock_implementation
+    - domestic_price_control
+    - peace_or_reopening
+    - renewed_escalation
+  prohibited_treatment_types:
+    - price_peak
+    - volatility_peak
+    - gdp_change
+  overlapping_events:
+    rule: Include separate intervention terms or estimate non-overlapping subwindows.
+
+event_study_windows:
+  immediate: [-3, 10]
+  short: [-10, 20]
+  extended: [-20, 60]
+
+severity_index:
+  method: standardized_first_principal_component
+  candidate_inputs:
+    - hormuz_flow_loss_ratio
+    - gulf_shut_in_mbd
+    - freight_or_war_risk_zscore
+    - military_intensity
+  robustness:
+    - equal_weight_index
+    - event_dummies_only

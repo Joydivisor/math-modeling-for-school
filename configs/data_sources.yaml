@@ -1,0 +1,75 @@
+project:
+  data_cutoff: "2026-07-29"
+  daily_start: "2010-01-01"
+  monthly_start: "2010-01"
+  quarterly_start: "2010-Q1"
+  counterfactual_train_end: "2026-02-27"
+
+sources:
+  eia:
+    source_id: SRC_EIA_API
+    enabled: true
+    requires_api_key: true
+    api_key_env: EIA_API_KEY
+    base_url: https://api.eia.gov/v2/
+    purpose:
+      - crude_price
+      - inventory
+      - production
+      - supply_demand
+
+  nbs:
+    source_id: SRC_NBS_DATA
+    enabled: true
+    requires_api_key: false
+    base_url: https://data.stats.gov.cn/
+    purpose:
+      - china_monthly_macro
+      - china_quarterly_gdp
+      - china_energy_production
+
+  gacc:
+    source_id: SRC_GACC_STATS
+    enabled: true
+    requires_api_key: false
+    base_url: http://stats.customs.gov.cn/
+    purpose:
+      - china_crude_import_quantity
+      - china_crude_import_value
+      - supplier_concentration
+
+  pboc:
+    source_id: SRC_PBOC_STATS
+    enabled: true
+    requires_api_key: false
+    base_url: https://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html
+    purpose:
+      - exchange_rate
+      - money_supply
+      - social_financing
+
+  world_bank:
+    source_id: SRC_WB_PINK
+    enabled: true
+    requires_api_key: false
+    base_url: https://www.worldbank.org/en/research/commodity-markets
+    purpose:
+      - monthly_commodity_price_crosscheck
+
+  un_comtrade:
+    source_id: SRC_UN_COMTRADE
+    enabled: true
+    requires_api_key: false
+    base_url: https://comtradeplus.un.org/
+    purpose:
+      - cross_country_crude_trade
+      - import_dependency
+      - supplier_hhi
+
+  iea_tracker:
+    source_id: SRC_IEA_POLICY_TRACKER
+    enabled: true
+    requires_api_key: false
+    base_url: https://www.iea.org/data-and-statistics/data-tools/2026-energy-crisis-policy-response-tracker
+    purpose:
+      - cross_country_policy_events

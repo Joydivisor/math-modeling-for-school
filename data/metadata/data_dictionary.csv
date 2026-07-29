@@ -1,0 +1,40 @@
+variable_id,question,variable_name_cn,variable_name_en,symbol,frequency,unit,transform,role,priority,source_id,start_date,end_date,status,notes
+brent_usd_bbl,Q1|Q2|Q3,布伦特原油现货价,Brent crude spot price,P_B,daily,USD_per_bbl,level|log|return,target|shock,P0,SRC_EIA_API,2010-01-01,2026-07-29,planned,Freeze raw level before deriving returns
+wti_usd_bbl,Q1,WTI原油现货价,WTI crude spot price,P_W,daily,USD_per_bbl,level|log|return,benchmark,P0,SRC_EIA_API,2010-01-01,2026-07-29,planned,
+brent_log_return,Q1,布伦特对数收益率,Brent log return,r_B,daily,log_point,100_times_log_difference,target,P0,SRC_DERIVED,2010-01-01,2026-07-29,defined,Compute after market-calendar alignment
+brent_realized_vol,Q1,布伦特实现波动率,Brent realized volatility,RV_B,daily|weekly,percent,rolling_standard_deviation,target,P0,SRC_DERIVED,2010-01-01,2026-07-29,defined,Report window length in model configuration
+brent_wti_spread,Q1,布伦特WTI价差,Brent WTI spread,S_BW,daily,USD_per_bbl,brent_minus_wti,control,P0,SRC_DERIVED,2010-01-01,2026-07-29,defined,
+us_crude_inventory,Q1,美国商业原油库存,US commercial crude inventory,I_US,weekly,million_bbl,level|change,control,P0,SRC_EIA_API,2010-01-01,2026-07-29,planned,
+global_oil_supply,Q1,全球石油供给,Global oil supply,S_G,monthly,million_bbl_per_day,level|change,control,P0,SRC_EIA_API,2010-01,2026-07,planned,
+global_oil_demand,Q1,全球石油需求,Global oil demand,D_G,monthly,million_bbl_per_day,level|change,control,P0,SRC_EIA_API,2010-01,2026-07,planned,
+hormuz_flow_mbd,Q1,霍尔木兹海峡石油流量,Hormuz oil flow,F_H,daily|monthly,million_bbl_per_day,level|loss_ratio,shock_driver,P0,SRC_IEA_OMR_JUL,2026-02-01,2026-07-29,planned,Public-frequency availability must be checked
+gulf_shut_in_mbd,Q1,海湾原油停产量,Gulf crude shut-ins,Q_G,monthly,million_bbl_per_day,level,shock_driver,P0,SRC_EIA_STEO_JUL,2026-02,2026-07,planned,
+event_severity_index,Q1,冲突严重度指数,Conflict severity index,GSI,daily,index_zscore,first_principal_component,shock_driver,P0,SRC_DERIVED,2026-02-28,2026-07-29,defined,Robustness uses equal weights and event dummies
+broad_usd_index,Q1,广义美元指数,Broad US dollar index,DXY_B,daily,index,log|return,control,P0,SRC_FRED,2010-01-01,2026-07-29,planned,Use FRED broad trade-weighted series rather than ticker ambiguity
+vix_index,Q1,市场恐慌指数,CBOE volatility index,VIX,daily,index,level|log,control,P0,SRC_FRED,2010-01-01,2026-07-29,planned,
+usd_cny,Q2,美元兑人民币汇率,USD CNY exchange rate,FX_CN,daily|monthly,CNY_per_USD,monthly_average|log_change,control,P0,SRC_PBOC_STATS,2010-01-01,2026-07-29,planned,
+brent_cny_bbl,Q2,人民币计价布伦特油价,Brent price in CNY,P_BCN,monthly,CNY_per_bbl,brent_times_fx|log_change,shock,P0,SRC_DERIVED,2010-01,2026-06,defined,Main China exposure variable
+china_real_gdp,Q2|Q3,中国实际国内生产总值,China real GDP,Y_CN,quarterly,index_or_constant_CNY,seasonal_adjust|log_change,outcome,P0,SRC_NBS_GDP_2026Q2,2010-Q1,2026-Q2,planned,Use real growth or construct chain index
+china_industrial_value_added,Q2,规模以上工业增加值,Industrial value added,IAV_CN,monthly,percent_yoy,index_or_growth,outcome,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_cpi,Q2|Q3,居民消费价格指数,China CPI,CPI_CN,monthly,index_or_percent,log_change|yoy,outcome,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_ppi,Q2,工业生产者出厂价格指数,China PPI,PPI_CN,monthly,index_or_percent,log_change|yoy,outcome,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_retail_sales,Q2,社会消费品零售总额,China retail sales,RET_CN,monthly,CNY_or_percent,real_growth,outcome,P0,SRC_NBS_DATA,2010-01,2026-06,planned,Deflate nominal level if level data are used
+china_fixed_asset_investment,Q2,固定资产投资,China fixed asset investment,FAI_CN,monthly,CNY_or_percent,real_or_growth,control,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_exports,Q2,中国出口额,China exports,X_CN,monthly,USD_or_CNY,seasonal_adjust|log_change,control,P0,SRC_GACC_STATS,2010-01,2026-06,planned,
+china_crude_import_qty,Q2|Q3,中国原油进口量,China crude import quantity,M_OIL_CN,monthly,tonne,level|growth,exposure,P0,SRC_GACC_STATS,2010-01,2026-06,planned,
+china_crude_import_value,Q2|Q3,中国原油进口金额,China crude import value,V_OIL_CN,monthly,USD_or_CNY,level|growth,exposure,P0,SRC_GACC_STATS,2010-01,2026-06,planned,
+china_crude_unit_value,Q2,中国进口原油单位价值,China crude import unit value,UV_OIL_CN,monthly,CNY_per_tonne,value_divided_by_quantity,shock,P0,SRC_DERIVED,2010-01,2026-06,defined,Check currency and customs valuation
+china_domestic_crude_output,Q2|Q3,中国原油产量,China domestic crude output,Q_OIL_CN,monthly,tonne,level|growth,buffer,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_refinery_throughput,Q2,中国原油加工量,China refinery throughput,RUN_CN,monthly,tonne,level|growth,outcome|mechanism,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
+china_gasoline_adjustment,Q3,国内汽油调价幅度,China gasoline price adjustment,DP_GAS,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_20260323,2026-03-23,2026-07-29,planned,Add every NDRC pricing round
+china_diesel_adjustment,Q3,国内柴油调价幅度,China diesel price adjustment,DP_DIESEL,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_20260323,2026-03-23,2026-07-29,planned,Add every NDRC pricing round
+china_price_buffer_ratio,Q3,国内油价缓冲比例,China fuel price buffer ratio,B_CN,event,ratio,one_minus_actual_div_calculated,policy,P0,SRC_DERIVED,2026-03-23,2026-07-29,defined,Define separately for gasoline and diesel
+china_m2,Q2,广义货币供应量,China M2,M2_CN,monthly,CNY,log_change|yoy,control,P1,SRC_PBOC_STATS,2010-01,2026-06,planned,
+china_social_financing,Q2,社会融资规模增量,Aggregate financing to real economy,TSF_CN,monthly,CNY,seasonal_adjust|scale,control,P1,SRC_PBOC_STATS,2010-01,2026-06,planned,
+peer_real_gdp,Q3,对照国实际GDP,Peer real GDP,Y_i,quarterly,index_or_constant_currency,seasonal_adjust|log_change,outcome,P0,SRC_OECD_EXPLORER,2010-Q1,2026-Q2,planned,Use latest common quarter and record ragged edge
+peer_industrial_production,Q3,对照国工业生产,Peer industrial production,IP_i,monthly,index,seasonal_adjust|log_change,outcome,P0,SRC_OECD_EXPLORER,2010-01,2026-06,planned,
+peer_cpi,Q3,对照国消费者价格指数,Peer CPI,CPI_i,monthly,index,log_change|yoy,outcome,P0,SRC_OECD_EXPLORER,2010-01,2026-06,planned,
+net_oil_import_dependency,Q3,石油净进口依赖度,Net oil import dependency,DEP_i,annual|monthly,ratio,net_imports_div_consumption,exposure,P0,SRC_UN_COMTRADE,2010,2026,planned,Supplement consumption denominator from official energy source
+oil_intensity_gdp,Q3,单位GDP石油消耗,Oil intensity of GDP,OI_i,annual,oil_per_real_gdp,standardize,exposure,P1,SRC_WORLD_BANK_WDI,2010,2025,planned,Latest annual value may need carry-forward sensitivity
+supplier_hhi,Q3,原油进口来源集中度,Crude supplier HHI,HHI_i,monthly|annual,index_0_1,sum_squared_partner_shares,exposure,P0,SRC_UN_COMTRADE,2010,2026,defined,Use HS2709 and test inclusion of HS2710
+policy_response_index,Q3,能源冲击政策响应指数,Energy policy response index,PRI_i,event|monthly,index,transparent_component_score,policy,P0,SRC_IEA_POLICY_TRACKER,2026-02-28,2026-07-29,defined,Keep conservation consumer support and structural resilience separate

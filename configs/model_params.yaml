@@ -1,0 +1,48 @@
+reproducibility:
+  random_seed: 20260729
+  data_cutoff: "2026-07-29"
+
+q1:
+  target: brent_log_return
+  main_model: regime_switching_arimax_garch_x
+  counterfactual_train_end: "2026-02-27"
+  rolling_forecast_origins: true
+  forecast_horizons_days: [1, 5, 10, 20]
+  confidence_levels: [0.80, 0.95]
+  candidate_regimes: [2, 3]
+  metrics: [MAE, RMSE, MASE, QLIKE, coverage]
+
+q2:
+  main_model: nonlinear_ardl_ecm
+  validation_model: local_projection
+  frequency: monthly
+  max_lag_months: 12
+  response_horizons_months: [0, 1, 3, 6, 12, 18, 24]
+  shock_definition: one_standard_deviation_brent_cny_return
+  metrics: [AIC, BIC, residual_whiteness, stability]
+
+q3:
+  main_model: panel_local_projection
+  frequency: quarterly
+  response_horizons_quarters: [0, 1, 2, 4, 6, 8]
+  core_peer_candidates:
+    - China
+    - India
+    - Japan
+    - Korea
+    - Germany
+    - France
+    - Italy
+    - Spain
+    - Thailand
+    - Turkiye
+  peer_inclusion_rules:
+    - net_oil_importer
+    - macro_data_available_through_2026Q2_or_latest_common_quarter
+    - energy_exposure_data_available
+    - policy_response_observable
+  interactions:
+    - shock_x_policy_buffer
+    - shock_x_import_dependency
+    - shock_x_oil_intensity
+    - shock_x_supplier_hhi
