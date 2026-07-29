@@ -61,6 +61,7 @@ support/        AI 工具使用说明等支撑材料
 
 ```powershell
 python -m src.data.validate_metadata
+python -m src.data.audit_github_snapshot --check-only
 python -m unittest discover -s tests -v
 ```
 
@@ -83,6 +84,8 @@ python -m pip install -r requirements.txt
 - [x] 仓库骨架与远程地址确定
 - [x] 初版数据字典、来源登记、事件时间线
 - [x] 数据优先阶段规则与审计准入标准
+- [x] 队友 GitHub 日频数据首轮快照、官方逐值比对与结构审计
+- [ ] 刷新存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
 - [ ] P0 数据下载与字段核验
 - [ ] P0 数据审计通过并冻结候选模型
 - [ ] 建模手固定交付物与 M1 质检

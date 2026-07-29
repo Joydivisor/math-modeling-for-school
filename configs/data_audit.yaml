@@ -1,6 +1,6 @@
 phase:
   name: data_acquisition_and_audit
-  status: not_started
+  status: in_progress
   data_cutoff: "2026-07-29"
   next_phase: model_selection
 

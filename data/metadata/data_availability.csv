@@ -1,0 +1,37 @@
+variable_id,question,priority,source_id,artifact_id,availability_status,blocker,next_action
+brent_usd_bbl,Q1|Q2|Q3,P0,SRC_FRED_EIA_SPOT,GH_FRED_DCOILBRENTEU_20260729,audited_blocked_release_lag,Latest valid date 2026-07-20 is earlier than required end 2026-07-29.,Refresh after the next official release and rerun audit.
+wti_usd_bbl,Q1,P0,SRC_FRED_EIA_SPOT,GH_FRED_DCOILWTICO_20260729,audited_blocked_release_lag,Latest valid date 2026-07-20 is earlier than required end 2026-07-29.,Refresh after the next official release and rerun audit.
+brent_log_return,Q1,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+brent_realized_vol,Q1,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+brent_wti_spread,Q1,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+us_crude_inventory,Q1,P0,SRC_EIA_API,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_EIA_API.
+global_oil_supply,Q1,P0,SRC_EIA_API,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_EIA_API.
+global_oil_demand,Q1,P0,SRC_EIA_API,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_EIA_API.
+hormuz_flow_mbd,Q1,P0,SRC_IEA_OMR_JUL,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_IEA_OMR_JUL.
+gulf_shut_in_mbd,Q1,P0,SRC_EIA_STEO_JUL,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_EIA_STEO_JUL.
+event_severity_index,Q1,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+broad_usd_index,Q1,P0,SRC_FRED_DTWEXBGS,GH_FRED_DTWEXBGS_20260729,audited_blocked_release_lag,Latest valid date 2026-07-24 is earlier than required end 2026-07-29.,Refresh after the next official release and rerun audit.
+vix_index,Q1,P0,SRC_FRED_VIX,GH_FRED_VIXCLS_20260729,audited_blocked_release_lag,Latest valid date 2026-07-27 is earlier than required end 2026-07-29.,Refresh after the next official release and rerun audit.
+usd_cny,Q2,P0,SRC_PBOC_STATS,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_PBOC_STATS.
+brent_cny_bbl,Q2,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+china_real_gdp,Q2|Q3,P0,SRC_NBS_GDP_2026Q2,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_GDP_2026Q2.
+china_industrial_value_added,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_cpi,Q2|Q3,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_ppi,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_retail_sales,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_fixed_asset_investment,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_exports,Q2,P0,SRC_GACC_STATS,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_GACC_STATS.
+china_crude_import_qty,Q2|Q3,P0,SRC_GACC_STATS,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_GACC_STATS.
+china_crude_import_value,Q2|Q3,P0,SRC_GACC_STATS,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_GACC_STATS.
+china_crude_unit_value,Q2,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+china_domestic_crude_output,Q2|Q3,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_refinery_throughput,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
+china_gasoline_adjustment,Q3,P0,SRC_NDRC_20260323,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NDRC_20260323.
+china_diesel_adjustment,Q3,P0,SRC_NDRC_20260323,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NDRC_20260323.
+china_price_buffer_ratio,Q3,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
+peer_real_gdp,Q3,P0,SRC_OECD_EXPLORER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_OECD_EXPLORER.
+peer_industrial_production,Q3,P0,SRC_OECD_EXPLORER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_OECD_EXPLORER.
+peer_cpi,Q3,P0,SRC_OECD_EXPLORER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_OECD_EXPLORER.
+net_oil_import_dependency,Q3,P0,SRC_UN_COMTRADE,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_UN_COMTRADE.
+supplier_hhi,Q3,P0,SRC_UN_COMTRADE,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_UN_COMTRADE.
+policy_response_index,Q3,P0,SRC_IEA_POLICY_TRACKER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_IEA_POLICY_TRACKER.
