@@ -1,0 +1,47 @@
+{
+  "snapshot": {
+    "retrieved_at_utc": "2026-07-29T13:48:00Z",
+    "data_cutoff": "2026-07-29",
+    "timezone": "Asia/Shanghai",
+    "official_pages_downloaded": 15,
+    "adjustment_windows": 14
+  },
+  "artifact": {
+    "path": "data/metadata/ndrc_price_adjustments_2026.csv",
+    "sha256": "53b6a6f1b2fdd4f6cdf35a7d24146aa6ecdefae4aa0c0181a9d836736804f6f6",
+    "size_bytes": 4370,
+    "official_url": "https://www.ndrc.gov.cn/xwdt/xwfb/wap_index.html",
+    "download_url": "https://www.ndrc.gov.cn/xwdt/xwfb/wap_index.html",
+    "format": "csv",
+    "license_or_terms": "NDRC copyrighted pages; factual values may be cited with attribution"
+  },
+  "logical_artifacts": [
+    {
+      "artifact_id": "NDRC_GASOLINE_ADJUSTMENTS_20260729",
+      "variable_id": "china_gasoline_adjustment",
+      "source_id": "SRC_NDRC_2026_ROUNDS",
+      "series_id": "NDRC_GASOLINE_ACTUAL_CNY_PER_TON",
+      "value_column": "gasoline_actual_cny_per_ton"
+    },
+    {
+      "artifact_id": "NDRC_DIESEL_ADJUSTMENTS_20260729",
+      "variable_id": "china_diesel_adjustment",
+      "source_id": "SRC_NDRC_2026_ROUNDS",
+      "series_id": "NDRC_DIESEL_ACTUAL_CNY_PER_TON",
+      "value_column": "diesel_actual_cny_per_ton"
+    }
+  ],
+  "expected": {
+    "first_window": "2026-01-06",
+    "last_window_at_cutoff": "2026-07-17",
+    "gasoline_net_change": 890,
+    "diesel_net_change": 860,
+    "temporary_policy_windows": [
+      "2026-03-23",
+      "2026-04-07"
+    ],
+    "zero_adjustment_windows": [
+      "2026-01-06"
+    ]
+  }
+}

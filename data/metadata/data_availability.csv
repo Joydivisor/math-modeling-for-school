@@ -26,8 +26,8 @@ china_crude_import_value,Q2|Q3,P0,SRC_GACC_STATS,,not_acquired,No frozen raw art
 china_crude_unit_value,Q2,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
 china_domestic_crude_output,Q2|Q3,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
 china_refinery_throughput,Q2,P0,SRC_NBS_DATA,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NBS_DATA.
-china_gasoline_adjustment,Q3,P0,SRC_NDRC_20260323,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NDRC_20260323.
-china_diesel_adjustment,Q3,P0,SRC_NDRC_20260323,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_NDRC_20260323.
+china_gasoline_adjustment,Q3,P0,SRC_NDRC_2026_ROUNDS,NDRC_GASOLINE_ADJUSTMENTS_20260729,audited_p0_pass,,Freeze this artifact for the P0 snapshot.
+china_diesel_adjustment,Q3,P0,SRC_NDRC_2026_ROUNDS,NDRC_DIESEL_ADJUSTMENTS_20260729,audited_p0_pass,,Freeze this artifact for the P0 snapshot.
 china_price_buffer_ratio,Q3,P0,SRC_DERIVED,,blocked_upstream,Required upstream raw variables are not all frozen.,Compute only after upstream files pass P0 audit.
 peer_real_gdp,Q3,P0,SRC_OECD_EXPLORER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_OECD_EXPLORER.
 peer_industrial_production,Q3,P0,SRC_OECD_EXPLORER,,not_acquired,No frozen raw artifact has been audited.,Acquire and audit from SRC_OECD_EXPLORER.

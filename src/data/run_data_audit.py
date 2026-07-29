@@ -10,6 +10,7 @@ from typing import Any
 
 from src.data.audit_eia_gulf_pdf import audit_gulf_pdf
 from src.data.audit_eia_snapshot import run_audit as run_eia_audit
+from src.data.audit_ndrc_snapshot import run_audit as run_ndrc_audit
 from src.data.audit_github_snapshot import (
     AUDIT_COLUMNS,
     AVAILABILITY_COLUMNS,
@@ -122,9 +123,17 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
     github = run_github_audit(write=write)
     eia = run_eia_audit(write=write)
     gulf = audit_gulf_pdf(write=write)
+    ndrc = run_ndrc_audit(write=write)
 
-    audit_rows = github["series"] + eia["series"] + gulf["series"]
-    manifest_rows = github_manifest_rows() + eia["manifest"] + gulf["manifest"]
+    audit_rows = (
+        github["series"] + eia["series"] + gulf["series"] + ndrc["series"]
+    )
+    manifest_rows = (
+        github_manifest_rows()
+        + eia["manifest"]
+        + gulf["manifest"]
+        + ndrc["manifest"]
+    )
     availability_rows = combined_availability(audit_rows, manifest_rows)
     summary = {
         "data_cutoff": "2026-07-29",

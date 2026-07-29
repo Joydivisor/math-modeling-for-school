@@ -26,8 +26,8 @@ china_crude_import_value,Q2|Q3,中国原油进口金额,China crude import value
 china_crude_unit_value,Q2,中国进口原油单位价值,China crude import unit value,UV_OIL_CN,monthly,CNY_per_tonne,value_divided_by_quantity,shock,P0,SRC_DERIVED,2010-01,2026-06,defined,Check currency and customs valuation
 china_domestic_crude_output,Q2|Q3,中国原油产量,China domestic crude output,Q_OIL_CN,monthly,tonne,level|growth,buffer,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
 china_refinery_throughput,Q2,中国原油加工量,China refinery throughput,RUN_CN,monthly,tonne,level|growth,outcome|mechanism,P0,SRC_NBS_DATA,2010-01,2026-06,planned,
-china_gasoline_adjustment,Q3,国内汽油调价幅度,China gasoline price adjustment,DP_GAS,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_20260323,2026-03-23,2026-07-29,planned,Add every NDRC pricing round
-china_diesel_adjustment,Q3,国内柴油调价幅度,China diesel price adjustment,DP_DIESEL,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_20260323,2026-03-23,2026-07-29,planned,Add every NDRC pricing round
+china_gasoline_adjustment,Q3,国内汽油调价幅度,China gasoline price adjustment,DP_GAS,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_2026_ROUNDS,2026-03-23,2026-07-29,audited_snapshot,All fourteen official adjustment windows through the cutoff are registered with page hashes; formula values remain blank unless officially disclosed
+china_diesel_adjustment,Q3,国内柴油调价幅度,China diesel price adjustment,DP_DIESEL,event,CNY_per_tonne,actual|calculated,policy,P0,SRC_NDRC_2026_ROUNDS,2026-03-23,2026-07-29,audited_snapshot,All fourteen official adjustment windows through the cutoff are registered with page hashes; formula values remain blank unless officially disclosed
 china_price_buffer_ratio,Q3,国内油价缓冲比例,China fuel price buffer ratio,B_CN,event,ratio,one_minus_actual_div_calculated,policy,P0,SRC_DERIVED,2026-03-23,2026-07-29,defined,Define separately for gasoline and diesel
 china_m2,Q2,广义货币供应量,China M2,M2_CN,monthly,CNY,log_change|yoy,control,P1,SRC_PBOC_STATS,2010-01,2026-06,planned,
 china_social_financing,Q2,社会融资规模增量,Aggregate financing to real economy,TSF_CN,monthly,CNY,seasonal_adjust|scale,control,P1,SRC_PBOC_STATS,2010-01,2026-06,planned,

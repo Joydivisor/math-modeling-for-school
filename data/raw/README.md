@@ -20,3 +20,6 @@
 | `jul26.pdf` | `https://www.eia.gov/outlooks/steo/archives/jul26.pdf` | `c1a0d6814be9ee54241b7eb650b26d3c1b1d1483f70f9b5021fd975b05f7d251` |
 
 `WCESTUS1w.xls` 和 `STEO.zip` 会随官方发布更新。若当前官方字节与上述哈希不同，不得覆盖旧记录或修改哈希来“通过”检查；应新增带获取时间的新快照记录，并重新审计修订、尾部覆盖和历史/预测边界。
+## NDRC 原始页面
+
+2026 年 14 个调价窗口对应的 15 个官方 HTML 页面保存在本地 `data/raw/ndrc/`，不提交原始版权页面。逐页 URL 与 SHA-256 已写入 `data/metadata/ndrc_price_adjustments_2026.csv`。
