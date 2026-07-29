@@ -36,6 +36,8 @@
 - `data/metadata/data_dictionary.csv`
 - `data/metadata/source_registry.csv`
 - `docs/data_audit_status_20260729.md`（当前审计结论、阻塞和下一执行顺序）
+- `docs/国一目标路线图.md`（从当前阶段持续到最终交付的关键路径）
+- `docs/2026国赛规则与合规清单.md`（官方规则快照、AI 与匿名合规）
 
 P0 数据准入阈值维护在 `configs/data_audit.yaml`。项目级协作规则见根目录 `AGENTS.md`。
 
@@ -82,6 +84,8 @@ python -m pip install -r requirements.txt
 
 ## 当前状态
 
+- 当前国一目标“可提交准备度”约为 18/100；这是工程完成度，不是获奖概率。
+
 - [x] 题目文件归档
 - [x] 仓库骨架与远程地址确定
 - [x] 初版数据字典、来源登记、事件时间线
@@ -94,6 +98,7 @@ python -m pip install -r requirements.txt
 - [x] IEA 政策资源三张数组真实解析及“仅类别覆盖、不可直接构造强度指数”语义审计
 - [x] GACC 端点、JODI 2026 快照与 UN Comtrade 2022—2024 HS2709 数据审计
 - [x] NBS 403 UrlACL 与 ChinaMoney 人工导出待办的精确阻塞分类
+- [x] 固化 2026 官方参赛规则、论文格式与 AI 使用规定，并启动 AI 使用日志
 - [ ] 刷新存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
 - [ ] 补齐 NBS、USD/CNY、GACC/JODI/Comtrade 长历史及发布滞后尾部
 - [ ] P0 数据审计通过并冻结候选模型
