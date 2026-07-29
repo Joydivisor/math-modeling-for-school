@@ -7,7 +7,6 @@ import csv
 import hashlib
 import json
 import math
-import re
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -24,6 +23,9 @@ from src.data.audit_github_snapshot import (
 
 
 DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "trade_energy_snapshot.json"
+JODI_HISTORY_CONFIG = (
+    PROJECT_ROOT / "configs" / "jodi_history_snapshot_20260730.json"
+)
 REQUIRED_JODI_COLUMNS = [
     "REF_AREA",
     "TIME_PERIOD",
@@ -64,6 +66,7 @@ def manifest_row(
     distributor: str,
     terms: str,
     notes: str,
+    verified: bool = True,
 ) -> dict[str, str]:
     return {
         "artifact_id": artifact_id,
@@ -83,8 +86,14 @@ def manifest_row(
         "underlying_provider": provider,
         "distributor": distributor,
         "license_or_terms": terms,
-        "official_byte_identical_at_snapshot": "true",
-        "status": "audited_external_not_committed",
+        "official_byte_identical_at_snapshot": (
+            "true" if verified else "false"
+        ),
+        "status": (
+            "audited_external_not_committed"
+            if verified
+            else "audit_failed_do_not_use"
+        ),
         "notes": notes,
     }
 
@@ -724,254 +733,452 @@ def audit_jodi(
     return audits, manifests, details
 
 
-def audit_comtrade(
+def audit_jodi_history(
     config: dict[str, Any],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]], dict[str, Any]]:
-    comtrade = config["comtrade"]
-    directory = PROJECT_ROOT / comtrade["directory"]
-    expected_files = comtrade["sha256_by_file"]
-    observed_files = {path.name for path in directory.glob("*.json")}
-    file_set_ok = observed_files == set(expected_files)
-    hash_ok = True
-    row_count = 0
-    duplicate_count = 0
-    invalid_count = 0
-    all_hhi: dict[str, dict[str, float]] = {}
-    no_record: set[str] = set()
-    world_weight_missing: set[str] = set()
-    partner_weight_missing: set[str] = set()
-    partner_weight_missing_record_count = 0
-    partner_weight_missing_records: list[dict[str, Any]] = []
-    estimated_weight_count = 0
-    collection_lines: list[str] = []
+    """Audit the hash-pinned 2010--2026 JODI annual collection."""
+    with JODI_HISTORY_CONFIG.open("r", encoding="utf-8") as handle:
+        history = json.load(handle)
 
-    for name, expected_digest in sorted(expected_files.items()):
-        path = directory / name
-        digest = sha256_file(path)
-        collection_lines.append(f"{name} {digest}\n")
-        hash_ok = hash_ok and digest == expected_digest
-        match = re.fullmatch(
-            r"uncomtrade_hs2709_imports_([A-Z]{3})_(\d{4})_annual\.json",
-            name,
-        )
-        if match is None:
-            invalid_count += 1
-            continue
-        reporter, year_text = match.groups()
-        year = int(year_text)
-        document = json.loads(path.read_text(encoding="utf-8"))
-        records = document.get("data", [])
-        row_count += len(records)
-        if not records:
-            no_record.add(reporter)
-            continue
-        keys: set[tuple[Any, ...]] = set()
-        world = None
-        partners = []
-        for record in records:
-            key = (
-                record.get("reporterCode"),
-                record.get("period"),
-                record.get("partnerCode"),
-                record.get("cmdCode"),
-                record.get("flowCode"),
-                record.get("customsCode"),
-                record.get("motCode"),
-            )
-            if key in keys:
-                duplicate_count += 1
-            keys.add(key)
-            if any(
-                [
-                    record.get("period") != str(year),
-                    record.get("cmdCode") != "2709",
-                    record.get("flowCode") != "M",
-                    record.get("partner2Code") != 0,
-                    record.get("customsCode") != "C00",
-                    record.get("motCode") != 0,
-                ]
-            ):
-                invalid_count += 1
-            if record.get("isNetWgtEstimated"):
-                estimated_weight_count += 1
-            if record.get("partnerCode") == 0:
-                world = record
-            else:
-                partners.append(record)
-        if world is None:
-            invalid_count += 1
-            continue
-        missing_partner_weights = [
-            record for record in partners
-            if record.get("netWgt") is None
-        ]
-        if missing_partner_weights:
-            partner_weight_missing.add(f"{reporter}_{year}")
-            partner_weight_missing_record_count += len(
-                missing_partner_weights
-            )
-            partner_weight_missing_records.extend(
-                {
-                    "reporter": reporter,
-                    "year": year,
-                    "partner_code": record["partnerCode"],
-                    "primary_value": record["primaryValue"],
-                }
-                for record in missing_partner_weights
-            )
-        weights = [
-            float(record["netWgt"])
-            for record in partners
-            if record.get("netWgt") is not None
-        ]
-        denominator = (
-            float(world["netWgt"])
-            if world.get("netWgt") is not None
-            else sum(weights)
-        )
-        if world.get("netWgt") is None:
-            world_weight_missing.add(f"{reporter}_{year}")
-        hhi = sum((weight / denominator) ** 2 for weight in weights)
-        all_hhi.setdefault(reporter, {})[str(year)] = hhi
-
-    latest_hhi = {
-        reporter: years["2024"]
-        for reporter, years in all_hhi.items()
-        if "2024" in years
+    expected_columns = history["required_columns"]
+    target_areas = history["target_areas"]
+    missing_tokens = {"-", "x", ".."}
+    primary_components = {
+        ("CRUDEOIL", "TOTIMPSB"),
+        ("CRUDEOIL", "TOTEXPSB"),
+        ("CRUDEOIL", "REFINOBS"),
+        ("TOTCRUDE", "TOTIMPSB"),
+        ("TOTCRUDE", "TOTEXPSB"),
     }
-    hhi_ok = all(
-        math.isclose(
-            latest_hhi[reporter],
-            expected,
-            abs_tol=5e-7,
+    secondary_components = {
+        ("TOTPRODS", "TOTIMPSB"),
+        ("TOTPRODS", "TOTEXPSB"),
+        ("TOTPRODS", "TOTDEMO"),
+    }
+    primary_values: dict[tuple[str, str, str, str], float] = {}
+    secondary_values: dict[tuple[str, str, str, str], float] = {}
+    file_results: list[dict[str, Any]] = []
+
+    for entry in history["files"]:
+        path = PROJECT_ROOT / entry["path"]
+        digest = sha256_file(path)
+        row_count = 0
+        periods: set[str] = set()
+        areas: set[str] = set()
+        missing = {token: 0 for token in missing_tokens}
+        invalid_count = 0
+        duplicate_count = 0
+        year_mismatch_count = 0
+        valid_count = 0
+        negative_count = 0
+        seen: set[tuple[str, str, str, str, str]] = set()
+        minimum: float | None = None
+        maximum: float | None = None
+        minimum_date = ""
+        maximum_date = ""
+        component_values = (
+            primary_values if entry["kind"] == "primary" else secondary_values
         )
-        for reporter, expected in comtrade["expected_hhi_2024"].items()
-    )
-    no_record_ok = no_record == set(comtrade["expected_no_record_reporters"])
-    missing_world_ok = world_weight_missing == set(
-        comtrade["expected_world_weight_missing"]
-    )
-    missing_partner_ok = partner_weight_missing == set(
-        comtrade["expected_partner_weight_missing"]
-    )
-    missing_partner_records_ok = [
-        {
-            "reporter": record["reporter"],
-            "year": record["year"],
-            "partner_code": record["partner_code"],
-        }
-        for record in partner_weight_missing_records
-    ] == comtrade["expected_partner_weight_missing_records"]
-    structure_ok = all(
+        component_set = (
+            primary_components
+            if entry["kind"] == "primary"
+            else secondary_components
+        )
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle)
+            columns = list(reader.fieldnames or [])
+            for row in reader:
+                row_count += 1
+                period = row["TIME_PERIOD"]
+                area = row["REF_AREA"]
+                product = row["ENERGY_PRODUCT"]
+                flow = row["FLOW_BREAKDOWN"]
+                unit = row["UNIT_MEASURE"]
+                token = row["OBS_VALUE"]
+                key = (area, period, product, flow, unit)
+                if key in seen:
+                    duplicate_count += 1
+                seen.add(key)
+                periods.add(period)
+                areas.add(area)
+                if not period.startswith(f"{entry['year']}-"):
+                    year_mismatch_count += 1
+                if token in missing_tokens:
+                    missing[token] += 1
+                    continue
+                try:
+                    value = float(token)
+                except ValueError:
+                    invalid_count += 1
+                    continue
+                valid_count += 1
+                if value < 0:
+                    negative_count += 1
+                if minimum is None or value < minimum:
+                    minimum = value
+                    minimum_date = period
+                if maximum is None or value > maximum:
+                    maximum = value
+                    maximum_date = period
+                if (
+                    area in target_areas
+                    and unit == "KBBL"
+                    and (product, flow) in component_set
+                ):
+                    component_values[(area, period, product, flow)] = value
+        structure_ok = all(
+            [
+                digest == entry["sha256"],
+                path.stat().st_size == entry["size_bytes"],
+                columns == expected_columns,
+                row_count == entry["row_count"],
+                periods
+                == {
+                    f"{entry['year']}-{month:02d}"
+                    for month in range(1, 6 if entry["year"] == 2026 else 13)
+                },
+                len(areas) == entry["area_count"],
+                missing["-"] == entry["missing_dash_count"],
+                missing["x"] == entry["missing_x_count"],
+                missing[".."] == entry["missing_dotdot_count"],
+                invalid_count == 0,
+                duplicate_count == 0,
+                year_mismatch_count == 0,
+            ]
+        )
+        file_results.append(
+            {
+                "entry": entry,
+                "path": path,
+                "digest": digest,
+                "row_count": row_count,
+                "valid_count": valid_count,
+                "missing_count": sum(missing.values()),
+                "invalid_count": invalid_count,
+                "duplicate_count": duplicate_count,
+                "negative_count": negative_count,
+                "minimum": minimum,
+                "maximum": maximum,
+                "minimum_date": minimum_date,
+                "maximum_date": maximum_date,
+                "structure_ok": structure_ok,
+            }
+        )
+
+    periods = [
+        f"{year}-{month:02d}"
+        for year in range(2010, 2026)
+        for month in range(1, 13)
+    ] + [f"2026-{month:02d}" for month in range(1, 6)]
+    panel_rows: list[dict[str, Any]] = []
+    complete_by_area: dict[str, set[str]] = {}
+    dependency_values: list[tuple[float, str, str]] = []
+    for area, country in target_areas.items():
+        crude_complete: list[str] = []
+        broad_complete: list[str] = []
+        inconsistent: list[str] = []
+        for period in periods:
+            crude_keys = [
+                (area, period, "CRUDEOIL", "TOTIMPSB"),
+                (area, period, "CRUDEOIL", "TOTEXPSB"),
+                (area, period, "CRUDEOIL", "REFINOBS"),
+            ]
+            broad_primary = [
+                (area, period, "TOTCRUDE", "TOTIMPSB"),
+                (area, period, "TOTCRUDE", "TOTEXPSB"),
+            ]
+            broad_secondary = [
+                (area, period, "TOTPRODS", "TOTIMPSB"),
+                (area, period, "TOTPRODS", "TOTEXPSB"),
+                (area, period, "TOTPRODS", "TOTDEMO"),
+            ]
+            crude_ok = (
+                all(key in primary_values for key in crude_keys)
+                and primary_values[crude_keys[2]] != 0
+            )
+            broad_ok = (
+                all(key in primary_values for key in broad_primary)
+                and all(key in secondary_values for key in broad_secondary)
+                and secondary_values[broad_secondary[2]] != 0
+            )
+            if crude_ok:
+                crude_complete.append(period)
+            if broad_ok:
+                broad_complete.append(period)
+            if crude_ok and broad_ok:
+                broad_ratio = (
+                    primary_values[broad_primary[0]]
+                    - primary_values[broad_primary[1]]
+                    + secondary_values[broad_secondary[0]]
+                    - secondary_values[broad_secondary[1]]
+                ) / secondary_values[broad_secondary[2]]
+                dependency_values.append((broad_ratio, period, area))
+            crude_import = (area, period, "CRUDEOIL", "TOTIMPSB")
+            total_import = (area, period, "TOTCRUDE", "TOTIMPSB")
+            if (
+                crude_import in primary_values
+                and total_import in primary_values
+                and primary_values[crude_import] > 0
+                and primary_values[total_import] == 0
+            ):
+                inconsistent.append(period)
+        both = set(crude_complete) & set(broad_complete)
+        complete_by_area[area] = both
+        panel_rows.append(
+            {
+                "area": area,
+                "country": country,
+                "expected_months": len(periods),
+                "crude_complete_months": len(crude_complete),
+                "broad_complete_months": len(broad_complete),
+                "both_complete_months": len(both),
+                "both_coverage_ratio": len(both) / len(periods),
+                "first_both_complete": min(both) if both else "",
+                "last_both_complete": max(both) if both else "",
+                "missing_both_periods": sorted(set(periods) - both),
+                "totcrude_zero_inconsistency_count": len(inconsistent),
+                "totcrude_zero_inconsistency_periods": inconsistent,
+            }
+        )
+    all_nine = set(periods)
+    eight_country = set(periods)
+    for area, complete in complete_by_area.items():
+        all_nine &= complete
+        if area != "IN":
+            eight_country &= complete
+    panel = {
+        "expected_period_start": periods[0],
+        "expected_period_end": periods[-1],
+        "expected_month_count": len(periods),
+        "all_nine_common_complete_month_count": len(all_nine),
+        "all_nine_common_coverage_ratio": len(all_nine) / len(periods),
+        "all_nine_common_first": min(all_nine) if all_nine else "",
+        "all_nine_common_last": max(all_nine) if all_nine else "",
+        "excluding_india_common_complete_month_count": len(eight_country),
+        "excluding_india_common_coverage_ratio": len(eight_country) / len(periods),
+        "excluding_india_common_first": min(eight_country),
+        "excluding_india_common_last": max(eight_country),
+        "required_2026_06_available": False,
+        "full_2010_2026_panel_feasible": len(all_nine) / len(periods) >= 0.95,
+        "eight_country_panel_feasible_at_95pct": (
+            len(eight_country) / len(periods) >= 0.95
+        ),
+    }
+    expected = history["expected_panel"]
+    expected_area_rows = {
+        row["area"]: row for row in history["expected_area_coverage"]
+    }
+    area_assertions: list[bool] = []
+    for row in panel_rows:
+        expected_area = expected_area_rows[row["area"]]
+        area_assertions.extend(
+            [
+                row["expected_months"] == int(expected_area["expected_months"]),
+                row["crude_complete_months"]
+                == int(expected_area["crude_complete_months"]),
+                row["broad_complete_months"]
+                == int(expected_area["broad_complete_months"]),
+                row["both_complete_months"]
+                == int(expected_area["both_complete_months"]),
+                math.isclose(
+                    row["both_coverage_ratio"],
+                    float(expected_area["both_coverage_ratio"]),
+                    abs_tol=1e-12,
+                ),
+                row["first_both_complete"]
+                == expected_area["first_both_complete"],
+                row["last_both_complete"]
+                == expected_area["last_both_complete"],
+                row["totcrude_zero_inconsistency_count"]
+                == int(expected_area["totcrude_zero_inconsistency_count"]),
+                "|".join(row["totcrude_zero_inconsistency_periods"])
+                == expected_area["totcrude_zero_inconsistency_periods"],
+            ]
+        )
+    india_row = next(row for row in panel_rows if row["area"] == "IN")
+    china_row = next(row for row in panel_rows if row["area"] == "CN")
+    panel_ok = all(
         [
-            file_set_ok,
-            hash_ok,
-            duplicate_count == 0,
-            invalid_count == 0,
-            hhi_ok,
-            no_record_ok,
-            missing_world_ok,
-            missing_partner_ok,
-            missing_partner_records_ok,
+            *area_assertions,
+            panel["expected_period_start"] == history["expected_period_start"],
+            panel["expected_period_end"] == history["expected_period_end"],
+            panel["expected_month_count"] == expected["expected_month_count"],
+            panel["all_nine_common_complete_month_count"]
+            == expected["all_nine_common_complete_month_count"],
+            math.isclose(
+                panel["all_nine_common_coverage_ratio"],
+                expected["all_nine_common_coverage_ratio"],
+                abs_tol=1e-12,
+            ),
+            panel["excluding_india_common_complete_month_count"]
+            == expected["excluding_india_common_complete_month_count"],
+            math.isclose(
+                panel["excluding_india_common_coverage_ratio"],
+                expected["excluding_india_common_coverage_ratio"],
+                abs_tol=1e-12,
+            ),
+            panel["required_2026_06_available"]
+            == expected["required_2026_06_available"],
+            panel["eight_country_panel_feasible_at_95pct"]
+            == expected["eight_country_panel_feasible_at_95pct"],
+            india_row["both_complete_months"]
+            == expected["india_both_complete_months"],
+            india_row["totcrude_zero_inconsistency_count"]
+            == expected["india_totcrude_zero_inconsistency_count"],
+            china_row["missing_both_periods"]
+            == expected["china_missing_both_periods"],
         ]
     )
-    collection_payload = "".join(collection_lines).encode("utf-8")
+
+    endpoint_audits, _, endpoint_details = audit_jodi(config)
+    endpoint_ok = endpoint_audits[0]["structure_status"] == "PASS"
+    structure_ok = (
+        all(result["structure_ok"] for result in file_results)
+        and panel_ok
+        and endpoint_ok
+    )
+    collection_payload = "".join(
+        f"{result['entry']['kind']}/{result['entry']['year']} "
+        f"{result['digest']}\n"
+        for result in sorted(
+            file_results,
+            key=lambda row: (row["entry"]["kind"], row["entry"]["year"]),
+        )
+    ).encode("utf-8")
     collection_digest = hashlib.sha256(collection_payload).hexdigest()
+    minimum_value, minimum_period, minimum_area = min(dependency_values)
+    maximum_value, maximum_period, maximum_area = max(dependency_values)
+    complete_area_month_count = sum(
+        len(complete) for complete in complete_by_area.values()
+    )
+    expected_area_month_count = len(periods) * len(target_areas)
     notes = (
-        "All 27 UN Comtrade HS2709 annual JSON responses are hash-pinned and "
-        "structurally valid, but only 2022-2024 are present versus the required "
-        "2010-2026 history. Saudi Arabia and Norway returned no public import "
-        "records and remain NA, never HHI=0. The UK 2022 and 2024 world net "
-        "weight is absent and one partner weight is also absent in each of "
-        "those years. The candidate is therefore a known-partner conditional "
-        "HHI using the available partner-weight sum and is flagged. Estimated "
-        "weights are retained."
+        "All 34 official JODI annual CSVs for 2010--2026 YTD are hash-pinned "
+        "and structurally valid. The eight-country panel excluding India has "
+        "193/197 common months (97.97%), but the nine-country panel has only "
+        "110/197. India has 111 complete months and 195 months where positive "
+        "CRUDEOIL imports conflict with zero TOTCRUDE imports. China lacks four "
+        "component-complete months. June 2026 is not yet released. Therefore "
+        "the original nine-country P0 variable remains FAIL; the eight-country "
+        "panel is an explicit M1 candidate, not an automatic substitution. Raw "
+        "files remain uncommitted pending JODI redistribution review. Audit "
+        "row statistics use the broad KBBL dependency ratio only on area-months "
+        "where both crude and broad candidates are computable."
     )
     audits = [
         audit_row(
-            variable_id="supplier_hhi",
-            artifact_id="UNCOMTRADE_HS2709_2022_2024_20260729",
-            series_id="UNCOMTRADE_HS2709_IMPORT_WEIGHT_HHI",
+            variable_id="net_oil_import_dependency",
+            artifact_id="JODI_OIL_DEPENDENCY_2010_2026_20260730",
+            series_id="JODI_OIL_PRIMARY_SECONDARY_2010_2026YTD",
             digest=collection_digest,
-            row_count=row_count,
-            valid_count=(
-                row_count
-                - len(world_weight_missing)
-                - partner_weight_missing_record_count
-            ),
-            missing_count=(
-                len(world_weight_missing)
-                + partner_weight_missing_record_count
-            ),
-            invalid_count=invalid_count,
-            duplicate_count=duplicate_count,
-            start_date="2022-01-01",
-            last_date="2024-01-01",
-            required_end_date="2026-01-01",
-            frequency="annual",
-            unit="HHI from partner net-weight shares",
-            row_coverage=3 / 17,
-            value_coverage=7 / 9,
+            row_count=expected_area_month_count,
+            valid_count=complete_area_month_count,
+            missing_count=expected_area_month_count - complete_area_month_count,
+            invalid_count=0,
+            duplicate_count=0,
+            start_date="2010-01-01",
+            last_date="2026-05-01",
+            required_end_date=history["required_end_date"],
+            frequency="monthly",
+            unit="broad net-oil dependency ratio; KBBL components",
+            row_coverage=1.0,
+            value_coverage=complete_area_month_count / expected_area_month_count,
             endpoint_coverage=0,
-            minimum=min(latest_hhi.values()),
-            maximum=max(latest_hhi.values()),
+            minimum=minimum_value,
+            maximum=maximum_value,
             structure_ok=structure_ok,
             p0_status="FAIL",
             notes=notes,
+            negative_count=sum(value < 0 for value, _, _ in dependency_values),
+            minimum_date=minimum_period + "-01",
+            maximum_date=maximum_period + "-01",
         )
     ]
     manifests = [
         manifest_row(
-            artifact_id="UNCOMTRADE_HS2709_2022_2024_20260729",
-            variable_id="supplier_hhi",
-            source_id="SRC_UN_COMTRADE",
-            official_url=comtrade["official_url"],
-            download_url=comtrade["download_url_template"],
-            local_path=comtrade["directory"],
-            retrieved_at_utc=comtrade["retrieved_at_utc"],
-            digest=collection_digest,
-            size_bytes=sum(
-                (directory / name).stat().st_size for name in expected_files
+            artifact_id=(
+                f"JODI_OIL_{result['entry']['kind'].upper()}_"
+                f"{result['entry']['year']}_20260730"
             ),
-            format_name="json collection",
-            provider="United Nations",
-            distributor="UN Comtrade API",
-            terms=comtrade["license_or_terms"],
+            variable_id=f"jodi_oil_{result['entry']['kind']}_raw",
+            source_id="SRC_JODI_OIL",
+            official_url=history["official_url"],
+            download_url=result["entry"]["download_url"],
+            local_path=result["entry"]["path"],
+            retrieved_at_utc=result["entry"]["retrieved_at_utc"],
+            digest=result["digest"],
+            size_bytes=result["entry"]["size_bytes"],
+            format_name="csv",
+            provider="Joint Organisations Data Initiative",
+            distributor="JODI Oil",
+            terms="JODI terms of use",
+            verified=result["structure_ok"],
             notes=(
-                "Collection SHA-256 is computed over the sorted filename and "
-                "per-file SHA-256 list; all individual hashes are in config."
+                "Untouched official annual CSV; raw file is ignored and is not "
+                "redistributed by this repository."
             ),
         )
+        for result in file_results
     ]
+    manifests.append(
+        manifest_row(
+            artifact_id="JODI_OIL_DEPENDENCY_2010_2026_20260730",
+            variable_id="net_oil_import_dependency",
+            source_id="SRC_JODI_OIL",
+            official_url=history["official_url"],
+            download_url=history["official_url"],
+            local_path="data/raw/trade_energy",
+            retrieved_at_utc=max(
+                entry["retrieved_at_utc"] for entry in history["files"]
+            ),
+            digest=collection_digest,
+            size_bytes=sum(entry["size_bytes"] for entry in history["files"]),
+            format_name="csv collection",
+            provider="Joint Organisations Data Initiative",
+            distributor="JODI Oil",
+            terms="JODI terms of use",
+            verified=structure_ok,
+            notes=(
+                "Logical fingerprint over 34 sorted annual-file hashes; raw "
+                "files remain ignored pending redistribution review."
+            ),
+        )
+    )
     details = {
+        **endpoint_details,
         "structure_status": "PASS" if structure_ok else "FAIL",
-        "file_count": len(observed_files),
-        "row_count": row_count,
-        "hhi_by_reporter_year": all_hhi,
-        "no_record_reporters": sorted(no_record),
-        "world_weight_missing": sorted(world_weight_missing),
-        "partner_weight_missing": sorted(partner_weight_missing),
-        "partner_weight_missing_record_count": (
-            partner_weight_missing_record_count
+        "history_file_count": len(file_results),
+        "history_structure_pass_count": sum(
+            result["structure_ok"] for result in file_results
         ),
-        "partner_weight_missing_records": (
-            partner_weight_missing_records
+        "history_collection_sha256": collection_digest,
+        "dependency_statistic_scope": (
+            "broad KBBL ratio on both-candidate-complete area-months"
         ),
-        "estimated_weight_record_count": estimated_weight_count,
-        "collection_sha256": collection_digest,
+        "dependency_minimum_area": minimum_area,
+        "dependency_maximum_area": maximum_area,
+        "panel_coverage": panel_rows,
+        "panel_summary": panel,
+        "common_complete_window_excluding_india": [
+            panel["excluding_india_common_first"],
+            panel["excluding_india_common_last"],
+        ],
     }
     return audits, manifests, details
-
 
 def run_audit(
     config_path: Path = DEFAULT_CONFIG,
     write: bool = True,
 ) -> dict[str, Any]:
+    from src.data.audit_comtrade_history_snapshot import (
+        audit_comtrade_history,
+    )
+
     config = load_config(config_path)
     component_results = {
         "gacc": audit_gacc(config),
-        "jodi": audit_jodi(config),
-        "comtrade": audit_comtrade(config),
+        "jodi": audit_jodi_history(config),
+        "comtrade": audit_comtrade_history(),
     }
     audits = [
         row

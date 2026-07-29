@@ -16,6 +16,7 @@
 |---|---|---|---|---|---|
 | 2026-07-29 | 数据收集与完整审计 | 按国赛标准审计仓库和外部数据；不要提前锁定模型；并行 Agents；同步 GitHub | 建立统一数据审计，核对 OECD、IEA、GACC、JODI、Comtrade、NBS/ChinaMoney 阻塞 | 由主流程和三个独立 Agent 复核；修正 OECD 变换、JODI 聚合、Comtrade 缺失权重和依赖声明后采纳 | Git 提交 `750f3de`；`docs/data_audit_status_20260729.md` |
 | 2026-07-30 | 国一目标差距评估与长程计划 | 评估距离完成国一目标论文还有多远，建立可持续到目标完成的计划 | 给出数据、建模、代码、论文、合规五阶段差距和 P0→M1→P1/P2→W1→W2 路线 | 三个只读 Agent 独立评估后由主流程合并；未把国一作为可保证结果 | `docs/国一目标路线图.md`；本日志 |
+| 2026-07-30 | D0 长历史与事件证据闭环 | 继续长期任务；并行完成 JODI、Comtrade、E08 证据采集并进行独立复核 | 接入 JODI 34 个年度文件、Comtrade 153 个正文与 153 份响应头、E08 四来源证据；修正覆盖率、报告国代码、HHI 缺重和发布时间语义 | 采纳独立审计提出的阻断项并重写派生统计；原始文件保持忽略；九国 P0 仍判 FAIL，八国只作为 M1 候选 | `configs/jodi_history_snapshot_20260730.json`；`configs/comtrade_history_snapshot_20260730.json`；`configs/event_e08_evidence_20260730.json`；27 项单元测试 |
 
 ## 后续每次必须记录
 

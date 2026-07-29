@@ -1,124 +1,94 @@
 {
-  "gacc": {
-    "official_page_date": "2026-07-15",
-    "files": {
-      "total_exports_imports": {
-        "path": "data/raw/trade_energy/gacc_2026-06_total_exports_imports_cny.xls",
-        "official_url": "https://english.customs.gov.cn/Statics/142befa2-8638-4657-89d1-40209514b007.html",
-        "download_url": "http://english.customs.gov.cn/Excel/1_1-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_CNY25.xls",
-        "retrieved_at_utc": "2026-07-29T15:04:55Z",
-        "sha256": "402fd8c93b63548fbf779c91e921f8c8294bfc9a872e5f6d66d68797a98ec3b2",
-        "size_bytes": 9216
-      },
-      "major_imports": {
-        "path": "data/raw/trade_energy/gacc_2026-06_major_imports_cny.xls",
-        "official_url": "https://english.customs.gov.cn/Statics/1440a39c-d651-4cec-b326-d4e2ab3d0f93.html",
-        "download_url": "http://english.customs.gov.cn/Excel/1_11-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_cny45.xls",
-        "retrieved_at_utc": "2026-07-29T14:46:45Z",
-        "sha256": "4f1e2c817bbda5d2ec5f3ededb987f562d25a3871fd488fab2d7eb8e349a9e6a",
-        "size_bytes": 16896
-      },
-      "major_exports": {
-        "path": "data/raw/trade_energy/gacc_2026-06_major_exports_cny.xls",
-        "official_url": "https://english.customs.gov.cn/Statics/0549e67d-b68f-4258-b848-01396e12b49e.html",
-        "download_url": "http://english.customs.gov.cn/Excel/1_9-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06-CNY45.xls",
-        "retrieved_at_utc": "2026-07-29T14:46:45Z",
-        "sha256": "eee6d723c80b5faa4f27463db41cefa101fb5075ebc817f557085b913c208f50",
-        "size_bytes": 16384
-      }
-    }
-  },
-  "jodi": {
-    "official_url": "https://www.jodidata.org/oil/database/data-downloads.aspx",
-    "terms_url": "https://www.jodidata.org/terms-of-use.aspx",
-    "files": {
-      "primary": {
-        "path": "data/raw/trade_energy/jodi_oil_primary_2026.csv",
-        "download_url": "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/primary/primaryyear2026.csv",
-        "retrieved_at_utc": "2026-07-29T14:47:52Z",
-        "sha256": "8da29e886eb313762371a38ac3c348cab47fe52a8afd71a0c051e1a05b1bfe09",
-        "size_bytes": 3963616,
-        "row_count": 96000,
-        "missing_dash_count": 38668,
-        "missing_x_count": 3840,
-        "missing_dotdot_count": 8190
-      },
-      "secondary": {
-        "path": "data/raw/trade_energy/jodi_oil_secondary_2026.csv",
-        "download_url": "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/secondary/secondaryyear2026.csv",
-        "retrieved_at_utc": "2026-07-29T14:51:01Z",
-        "sha256": "28b659c1d30501e2fa3b1d98abf4ccc18c3d885ad9b919af6ae99a36e4af0168",
-        "size_bytes": 9001018,
-        "row_count": 216000,
-        "missing_dash_count": 76738,
-        "missing_x_count": 8640,
-        "missing_dotdot_count": 6075
-      }
-    },
-    "expected_may_2026_dependency": {
-      "CN": {"crude": 0.637865, "broad": 0.638421},
-      "JP": {"crude": 0.659213, "broad": 0.804805},
-      "KR": {"crude": 1.010025, "broad": 0.970782},
-      "DE": {"crude": 0.975078, "broad": 0.872769},
-      "US": {"crude": 0.034732, "broad": -0.265524},
-      "GB": {"crude": 0.424339, "broad": 0.540482},
-      "SA": {"crude": -1.439229, "broad": -1.576678},
-      "NO": {"crude": -7.335823, "broad": -6.914008}
-    },
-    "incomplete_area": "IN"
-  },
-  "comtrade": {
-    "official_url": "https://comtradeplus.un.org/",
-    "download_url_template": "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode={M49}&period={YEAR}&cmdCode=2709&flowCode=M&partner2Code=0&customsCode=C00&motCode=0&maxRecords=500",
-    "license_or_terms": "UN Comtrade license agreement",
-    "retrieved_at_utc": "2026-07-29T14:59:26Z",
-    "directory": "data/raw/trade_energy/comtrade_hs2709",
-    "reporters": ["CHN", "JPN", "KOR", "DEU", "USA", "IND", "GBR", "SAU", "NOR"],
-    "years": [2022, 2023, 2024],
-    "expected_hhi_2024": {
-      "CHN": 0.107069,
-      "JPN": 0.355881,
-      "KOR": 0.186296,
-      "DEU": 0.117058,
-      "USA": 0.407641,
-      "IND": 0.215971,
-      "GBR": 0.278400
-    },
-    "expected_no_record_reporters": ["SAU", "NOR"],
-    "expected_world_weight_missing": ["GBR_2022", "GBR_2024"],
-    "expected_partner_weight_missing": ["GBR_2022", "GBR_2024"],
-    "expected_partner_weight_missing_records": [
-      {"reporter": "GBR", "year": 2022, "partner_code": 458},
-      {"reporter": "GBR", "year": 2024, "partner_code": 31}
-    ],
-    "sha256_by_file": {
-      "uncomtrade_hs2709_imports_CHN_2022_annual.json": "1f79c4f4f57d95f63058535bf0f0044433e3953a6b8c5df4a6b6edc2191fde0e",
-      "uncomtrade_hs2709_imports_CHN_2023_annual.json": "140467ad0fd8a496e36f317ee3e927a7a61c4d00e1d4f7dc3f5b1e96f25be3a5",
-      "uncomtrade_hs2709_imports_CHN_2024_annual.json": "0fcac4c8b51e7139473571aaf0f7a9524b5c9e1a32c9ec26e17dbe4f7efaeb8e",
-      "uncomtrade_hs2709_imports_JPN_2022_annual.json": "1bf3cbfa0a70c882288b162fc745ff717449d3d85553f9660b3e63ed6b2c177e",
-      "uncomtrade_hs2709_imports_JPN_2023_annual.json": "4e3f8d6ca4c8333c6520a9ea3f1b02d873fc948b2d5cc28acde4405d55109b8f",
-      "uncomtrade_hs2709_imports_JPN_2024_annual.json": "428c152339801c8f42c6d1de5fb9bae0172f553bb9e6e886eb5709c7aa746b92",
-      "uncomtrade_hs2709_imports_KOR_2022_annual.json": "6787c02c186b4d2bc79f65f5b939629ea66f354eaa0c1111d276f22de0de4377",
-      "uncomtrade_hs2709_imports_KOR_2023_annual.json": "b049563c1f4e8133ff1ab9b562a7bd602d945b48968ed68543ee899502e98b54",
-      "uncomtrade_hs2709_imports_KOR_2024_annual.json": "4133834682e6bdf3b4c9950bc14308302c0423488313ee3490257d12911eec2e",
-      "uncomtrade_hs2709_imports_DEU_2022_annual.json": "42006d15aff36d229df9fd60e1484f01d54699c0ae3a8cd845596233f5ff07e4",
-      "uncomtrade_hs2709_imports_DEU_2023_annual.json": "4f0f3cfb4bedd45e86b3339726ef84f38a459eb5a167d5e0cea0121504b308a2",
-      "uncomtrade_hs2709_imports_DEU_2024_annual.json": "fa96738a0d0992c03750ab8c88385540773510acc3d5b4cdfe3e813dc847dbc3",
-      "uncomtrade_hs2709_imports_USA_2022_annual.json": "5fd3f22a720999510699e6fe4067b1bdbffbe22e1b451728d748b797afea4375",
-      "uncomtrade_hs2709_imports_USA_2023_annual.json": "a42aa23196ee19b2b66e292ee37f5dbab89c85d7e391c476be692a9970724bc0",
-      "uncomtrade_hs2709_imports_USA_2024_annual.json": "57e94a27659e8b997810fcf28367a3d0efd2b8efba645f1d3c9ccd21b86c8e7f",
-      "uncomtrade_hs2709_imports_IND_2022_annual.json": "6ed8316e20b50af161dd733ea70484314e08a2d3b1bec9dfa900d8d9ceb03765",
-      "uncomtrade_hs2709_imports_IND_2023_annual.json": "0c2f8f7c78e2ecd302ffd877a171618769be2cfc0c597f6b3eb2e051eceaa69d",
-      "uncomtrade_hs2709_imports_IND_2024_annual.json": "0f4d56e3fac5820c10002f33c30b2ed175b828ce05a601d9fe0bb4464ac2655f",
-      "uncomtrade_hs2709_imports_GBR_2022_annual.json": "8c92a8aca38eb96d58ba0ca30f90a75f5d677dfcf9f91cd5093fecc6395e18a6",
-      "uncomtrade_hs2709_imports_GBR_2023_annual.json": "5f35231b7879b25696b43a84fc2ef869b01a490d192001a94daad0b3022df85f",
-      "uncomtrade_hs2709_imports_GBR_2024_annual.json": "04489473b153959d872850ef7286a81accd279db688395dd10aafd1f28a7b4cf",
-      "uncomtrade_hs2709_imports_SAU_2022_annual.json": "06f62df7786919784d31b9fb7ba41018d037754dfa88dde7c721fb6e050c4461",
-      "uncomtrade_hs2709_imports_SAU_2023_annual.json": "0d18aee8bbdb2081ce896841ef76a1c2ab685c14db3d827fe79a8ee11996426d",
-      "uncomtrade_hs2709_imports_SAU_2024_annual.json": "375440cb609ad9ccba1a20c507125e182412571650c0b1ec62d121f10c3a4fbb",
-      "uncomtrade_hs2709_imports_NOR_2022_annual.json": "74fb9e013d2918f975bfabd9d7de6ec6c766547ddfcbaed48bfea66fe1eb2e96",
-      "uncomtrade_hs2709_imports_NOR_2023_annual.json": "abfcedadc0d00b569b74638799519831d5e902e849c7a0e480ad2bf9740c068f",
-      "uncomtrade_hs2709_imports_NOR_2024_annual.json": "c539d60f21063df8b0cc145deb6a766363b5ec0fc16e55d4b52784a2175d18d2"
-    }
-  }
+    "gacc":  {
+                 "official_page_date":  "2026-07-15",
+                 "files":  {
+                               "total_exports_imports":  {
+                                                             "path":  "data/raw/trade_energy/gacc_2026-06_total_exports_imports_cny.xls",
+                                                             "official_url":  "https://english.customs.gov.cn/Statics/142befa2-8638-4657-89d1-40209514b007.html",
+                                                             "download_url":  "http://english.customs.gov.cn/Excel/1_1-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_CNY25.xls",
+                                                             "retrieved_at_utc":  "2026-07-29T15:04:55Z",
+                                                             "sha256":  "402fd8c93b63548fbf779c91e921f8c8294bfc9a872e5f6d66d68797a98ec3b2",
+                                                             "size_bytes":  9216
+                                                         },
+                               "major_imports":  {
+                                                     "path":  "data/raw/trade_energy/gacc_2026-06_major_imports_cny.xls",
+                                                     "official_url":  "https://english.customs.gov.cn/Statics/1440a39c-d651-4cec-b326-d4e2ab3d0f93.html",
+                                                     "download_url":  "http://english.customs.gov.cn/Excel/1_11-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_cny45.xls",
+                                                     "retrieved_at_utc":  "2026-07-29T14:46:45Z",
+                                                     "sha256":  "4f1e2c817bbda5d2ec5f3ededb987f562d25a3871fd488fab2d7eb8e349a9e6a",
+                                                     "size_bytes":  16896
+                                                 },
+                               "major_exports":  {
+                                                     "path":  "data/raw/trade_energy/gacc_2026-06_major_exports_cny.xls",
+                                                     "official_url":  "https://english.customs.gov.cn/Statics/0549e67d-b68f-4258-b848-01396e12b49e.html",
+                                                     "download_url":  "http://english.customs.gov.cn/Excel/1_9-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06-CNY45.xls",
+                                                     "retrieved_at_utc":  "2026-07-29T14:46:45Z",
+                                                     "sha256":  "eee6d723c80b5faa4f27463db41cefa101fb5075ebc817f557085b913c208f50",
+                                                     "size_bytes":  16384
+                                                 }
+                           }
+             },
+    "jodi":  {
+                 "official_url":  "https://www.jodidata.org/oil/database/data-downloads.aspx",
+                 "terms_url":  "https://www.jodidata.org/terms-of-use.aspx",
+                 "files":  {
+                               "primary":  {
+                                               "path":  "data/raw/trade_energy/jodi_oil_primary_2026.csv",
+                                               "download_url":  "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/primary/primaryyear2026.csv",
+                                               "retrieved_at_utc":  "2026-07-29T14:47:52Z",
+                                               "sha256":  "8da29e886eb313762371a38ac3c348cab47fe52a8afd71a0c051e1a05b1bfe09",
+                                               "size_bytes":  3963616,
+                                               "row_count":  96000,
+                                               "missing_dash_count":  38668,
+                                               "missing_x_count":  3840,
+                                               "missing_dotdot_count":  8190
+                                           },
+                               "secondary":  {
+                                                 "path":  "data/raw/trade_energy/jodi_oil_secondary_2026.csv",
+                                                 "download_url":  "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/secondary/secondaryyear2026.csv",
+                                                 "retrieved_at_utc":  "2026-07-29T14:51:01Z",
+                                                 "sha256":  "28b659c1d30501e2fa3b1d98abf4ccc18c3d885ad9b919af6ae99a36e4af0168",
+                                                 "size_bytes":  9001018,
+                                                 "row_count":  216000,
+                                                 "missing_dash_count":  76738,
+                                                 "missing_x_count":  8640,
+                                                 "missing_dotdot_count":  6075
+                                             }
+                           },
+                 "expected_may_2026_dependency":  {
+                                                      "CN":  {
+                                                                 "crude":  0.637865,
+                                                                 "broad":  0.638421
+                                                             },
+                                                      "JP":  {
+                                                                 "crude":  0.659213,
+                                                                 "broad":  0.804805
+                                                             },
+                                                      "KR":  {
+                                                                 "crude":  1.010025,
+                                                                 "broad":  0.970782
+                                                             },
+                                                      "DE":  {
+                                                                 "crude":  0.975078,
+                                                                 "broad":  0.872769
+                                                             },
+                                                      "US":  {
+                                                                 "crude":  0.034732,
+                                                                 "broad":  -0.265524
+                                                             },
+                                                      "GB":  {
+                                                                 "crude":  0.424339,
+                                                                 "broad":  0.540482
+                                                             },
+                                                      "SA":  {
+                                                                 "crude":  -1.439229,
+                                                                 "broad":  -1.576678
+                                                             },
+                                                      "NO":  {
+                                                                 "crude":  -7.335823,
+                                                                 "broad":  -6.914008
+                                                             }
+                                                  },
+                 "incomplete_area":  "IN"
+             }
 }

@@ -10,6 +10,7 @@ from typing import Any
 
 from src.data.audit_eia_gulf_pdf import audit_gulf_pdf
 from src.data.audit_eia_snapshot import run_audit as run_eia_audit
+from src.data.audit_event_e08_evidence import run_audit as run_event_e08_audit
 from src.data.audit_iea_policy_snapshot_v2 import run_audit as run_iea_policy_audit
 from src.data.audit_ndrc_snapshot import run_audit as run_ndrc_audit
 from src.data.audit_oecd_snapshot_v2 import run_audit as run_oecd_audit
@@ -48,12 +49,14 @@ P0_FAIL_NEXT_ACTIONS = {
         "observation or use an explicitly unbalanced-panel method."
     ),
     "net_oil_import_dependency": (
-        "Download and audit JODI annual files back to 2010; resolve India "
-        "reporting gaps before computing a common-country panel."
+        "Treat the audited eight-country 193/197-month panel as the M1 "
+        "candidate; exclude India explicitly unless a defensible alternate "
+        "series resolves its 111/197 coverage and 195 semantic conflicts."
     ),
     "supplier_hhi": (
-        "Extend UN Comtrade HS2709 acquisition to 2010-2026 and define "
-        "an explicit NA strategy for no-record and missing-weight cases."
+        "Evaluate the audited eight-country 2010-2024 full-weight HHI panel "
+        "at M1; keep six conditional GBR years out of the primary series, "
+        "exclude SAU explicitly, and treat 2025-2026 as ragged/release lag."
     ),
     "policy_response_index": (
         "Use the IEA snapshot only as qualitative category evidence; "
@@ -169,6 +172,7 @@ def combined_availability(
 def run_combined_audit(write: bool = True) -> dict[str, Any]:
     github = run_github_audit(write=write)
     eia = run_eia_audit(write=write)
+    event_e08 = run_event_e08_audit(write=write)
     gulf = audit_gulf_pdf(write=write)
     iea_policy = run_iea_policy_audit(write=write)
     ndrc = run_ndrc_audit(write=write)
@@ -186,6 +190,7 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
     )
     manifest_rows = (
         github_manifest_rows()
+        + event_e08["manifest"]
         + eia["manifest"]
         + gulf["manifest"]
         + iea_policy["manifest"]
@@ -197,6 +202,8 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
     summary = {
         "data_cutoff": "2026-07-29",
         "github_snapshot_commit": github["snapshot"]["commit_sha"],
+        "event_e08_evidence_status": event_e08["structure_status"],
+        "event_e08_evidence_source_count": event_e08["source_count"],
         "artifact_count": len(audit_rows),
         "structure_pass_count": sum(
             row["structure_status"] == "PASS" for row in audit_rows
@@ -261,15 +268,7 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
         for row in manifest_rows:
             if "collection" not in row["format"]:
                 unique_artifacts[row["local_path"]] = row["sha256"]
-        trade_config_path = (
-            PROJECT_ROOT / "configs" / "trade_energy_snapshot.json"
-        )
-        with trade_config_path.open("r", encoding="utf-8") as handle:
-            trade_config = json.load(handle)
-        comtrade = trade_config["comtrade"]
-        for file_name, digest in comtrade["sha256_by_file"].items():
-            local_path = f"{comtrade['directory']}/{file_name}"
-            unique_artifacts[local_path] = digest
+
         with (METADATA_DIR / "checksums.sha256").open(
             "w", encoding="utf-8", newline="\n"
         ) as handle:

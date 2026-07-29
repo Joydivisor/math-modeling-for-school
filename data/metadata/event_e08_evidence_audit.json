@@ -1,0 +1,195 @@
+{
+  "event_id": "E08",
+  "date_start": "2026-07-07",
+  "date_end": "2026-07-08",
+  "source_count": 4,
+  "source_pass_count": 4,
+  "structure_status": "PASS",
+  "timeline_checks": {
+    "date_start": true,
+    "date_end": true,
+    "verification_status": true,
+    "source_ids": true,
+    "causal_role": true
+  },
+  "evidence_checks": {
+    "primary_source_present": true,
+    "independent_institutional_source_present": true,
+    "independent_news_source_present": true,
+    "publication_metadata_present": true,
+    "unique_artifact_ids": true,
+    "unique_source_ids": true
+  },
+  "details": [
+    {
+      "artifact_id": "EVENT_E08_CENTCOM_DVIDS_20260730",
+      "source_id": "SRC_CENTCOM_DVIDS_E08",
+      "role": "primary",
+      "local_path": "data/raw/events/e08_centcom_dvids_20260730.html",
+      "observed_sha256": "ce314a8a1f45333cd5bb59ef888ef195ec5754f0c15162a9cbba83624884a8a4",
+      "observed_size_bytes": 72198,
+      "marker_results": {
+        "U.S. Forces Complete New Round of Retaliatory Strikes Against Iran": true,
+        "Date Taken:</td>": true,
+        "07.07.2026": true,
+        "July 7, hitting over 80 targets": true
+      },
+      "checks": {
+        "sha256": true,
+        "size_bytes": true,
+        "expected_markers": true
+      },
+      "status": "PASS",
+      "event_time_note": "Date Taken is 2026-07-07; page also reports Date Posted 2026-07-07 21:50 without an explicit timezone."
+    },
+    {
+      "artifact_id": "EVENT_E08_IEA_OMR_20260730",
+      "source_id": "SRC_IEA_OMR_JUL",
+      "role": "independent_institutional",
+      "local_path": "data/raw/events/e08_iea_omr_july_2026_20260730.html",
+      "observed_sha256": "a70fbd5472de199fc4cf9add88eddd5091a8bcda751677c0ecef8b810ca89fe8",
+      "observed_size_bytes": 332701,
+      "marker_results": {
+        "An escalation in hostilities on 7-8 July": true,
+        "Renewed exchanges of fire in the Gulf this week": true
+      },
+      "checks": {
+        "sha256": true,
+        "size_bytes": true,
+        "expected_markers": true
+      },
+      "status": "PASS",
+      "event_time_note": "The occurrence window is 2026-07-07 through 2026-07-08; the report publication date 2026-07-10 is not the event date."
+    },
+    {
+      "artifact_id": "EVENT_E08_AP_20260730",
+      "source_id": "SRC_AP_E08",
+      "role": "independent_news",
+      "local_path": "data/raw/events/e08_ap_20260730.html",
+      "observed_sha256": "92b221d2ab27300d0f593b09781c2e32ba797af5517e5045857ce6dd7d07e0ef",
+      "observed_size_bytes": 983452,
+      "marker_results": {
+        "datePublished\":\"2026-07-07T01:12:41Z": true,
+        "dateModified\":\"2026-07-08T02:46:57Z": true,
+        "struck three ships in the Strait of Hormuz": true
+      },
+      "checks": {
+        "sha256": true,
+        "size_bytes": true,
+        "expected_markers": true
+      },
+      "status": "PASS",
+      "event_time_note": "The rolling article was first published on 2026-07-07 UTC and modified on 2026-07-08 UTC; the retaliatory-strike wording belongs to the updated version."
+    },
+    {
+      "artifact_id": "EVENT_E08_IEA_PUBLICATION_20260730",
+      "source_id": "SRC_IEA_OMR_JUL_PUBLICATION",
+      "role": "publication_metadata",
+      "local_path": "data/raw/events/e08_iea_omr_publication_20260730.html",
+      "observed_sha256": "fa8985812d981146fc54bcca47df9fae2215f16a349a70bb099ff422457cef6e",
+      "observed_size_bytes": 240630,
+      "marker_results": {
+        "Oil Market Report - July 2026": true,
+        "10 July 2026": true,
+        "2026-07-10T10:00:00+02:00": true
+      },
+      "checks": {
+        "sha256": true,
+        "size_bytes": true,
+        "expected_markers": true
+      },
+      "status": "PASS",
+      "event_time_note": "This page mechanically verifies that the report was published on 2026-07-10; it is publication metadata, not the 2026-07-07 through 2026-07-08 event time."
+    }
+  ],
+  "manifest": [
+    {
+      "artifact_id": "EVENT_E08_CENTCOM_DVIDS_20260730",
+      "variable_id": "event_timeline_e08",
+      "source_id": "SRC_CENTCOM_DVIDS_E08",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://www.dvidshub.net/video/1013909",
+      "download_url": "https://www.dvidshub.net/video/1013909",
+      "local_path": "data/raw/events/e08_centcom_dvids_20260730.html",
+      "retrieved_at_utc": "2026-07-29T17:09:48Z",
+      "sha256": "ce314a8a1f45333cd5bb59ef888ef195ec5754f0c15162a9cbba83624884a8a4",
+      "size_bytes": "72198",
+      "format": "html",
+      "underlying_provider": "U.S. Central Command",
+      "distributor": "Defense Visual Information Distribution Service",
+      "license_or_terms": "DVIDS terms; official U.S. government factual record",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Frozen primary evidence for E08. Date Taken is 2026-07-07; page also reports Date Posted 2026-07-07 21:50 without an explicit timezone."
+    },
+    {
+      "artifact_id": "EVENT_E08_IEA_OMR_20260730",
+      "variable_id": "event_timeline_e08",
+      "source_id": "SRC_IEA_OMR_JUL",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://www.iea.org/reports/oil-market-report-July-2026?mode=overview",
+      "download_url": "https://www.iea.org/reports/oil-market-report-July-2026?mode=overview",
+      "local_path": "data/raw/events/e08_iea_omr_july_2026_20260730.html",
+      "retrieved_at_utc": "2026-07-29T17:09:55Z",
+      "sha256": "a70fbd5472de199fc4cf9add88eddd5091a8bcda751677c0ecef8b810ca89fe8",
+      "size_bytes": "332701",
+      "format": "html",
+      "underlying_provider": "International Energy Agency",
+      "distributor": "International Energy Agency",
+      "license_or_terms": "IEA terms of use; local audit copy only",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Frozen independent_institutional evidence for E08. The occurrence window is 2026-07-07 through 2026-07-08; the report publication date 2026-07-10 is not the event date."
+    },
+    {
+      "artifact_id": "EVENT_E08_AP_20260730",
+      "variable_id": "event_timeline_e08",
+      "source_id": "SRC_AP_E08",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://apnews.com/article/iran-us-israel-war-oil-4732228810c9839a1258309ad43b8289",
+      "download_url": "https://apnews.com/article/iran-us-israel-war-oil-4732228810c9839a1258309ad43b8289",
+      "local_path": "data/raw/events/e08_ap_20260730.html",
+      "retrieved_at_utc": "2026-07-29T17:10:42Z",
+      "sha256": "92b221d2ab27300d0f593b09781c2e32ba797af5517e5045857ce6dd7d07e0ef",
+      "size_bytes": "983452",
+      "format": "html",
+      "underlying_provider": "The Associated Press",
+      "distributor": "AP News",
+      "license_or_terms": "AP copyrighted page; factual citation only; do not redistribute raw page",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Frozen independent_news evidence for E08. The rolling article was first published on 2026-07-07 UTC and modified on 2026-07-08 UTC; the retaliatory-strike wording belongs to the updated version."
+    },
+    {
+      "artifact_id": "EVENT_E08_IEA_PUBLICATION_20260730",
+      "variable_id": "event_timeline_e08",
+      "source_id": "SRC_IEA_OMR_JUL_PUBLICATION",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://www.iea.org/events/oil-market-report-july-2026",
+      "download_url": "https://www.iea.org/events/oil-market-report-july-2026",
+      "local_path": "data/raw/events/e08_iea_omr_publication_20260730.html",
+      "retrieved_at_utc": "2026-07-29T17:58:14Z",
+      "sha256": "fa8985812d981146fc54bcca47df9fae2215f16a349a70bb099ff422457cef6e",
+      "size_bytes": "240630",
+      "format": "html",
+      "underlying_provider": "International Energy Agency",
+      "distributor": "International Energy Agency",
+      "license_or_terms": "IEA terms of use; local audit copy only",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Frozen publication_metadata evidence for E08. This page mechanically verifies that the report was published on 2026-07-10; it is publication metadata, not the 2026-07-07 through 2026-07-08 event time."
+    }
+  ]
+}

@@ -96,11 +96,12 @@ python -m pip install -r requirements.txt
 - [x] 记录霍尔木兹流量公开官方序列缺失及付费/代理备选路线
 - [x] OECD 跨国 GDP/IP/CPI 全区域、状态码、方法学、ragged edge 与内部缺口审计
 - [x] IEA 政策资源三张数组真实解析及“仅类别覆盖、不可直接构造强度指数”语义审计
-- [x] GACC 端点、JODI 2026 快照与 UN Comtrade 2022—2024 HS2709 数据审计
+- [x] GACC 端点审计；JODI 2010—2026 的 34 文件长历史与 UN Comtrade 2010—2026 的 153 响应长历史审计
 - [x] NBS 403 UrlACL 与 ChinaMoney 人工导出待办的精确阻塞分类
 - [x] 固化 2026 官方参赛规则、论文格式与 AI 使用规定，并启动 AI 使用日志
-- [ ] 刷新存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
-- [ ] 补齐 NBS、USD/CNY、GACC/JODI/Comtrade 长历史及发布滞后尾部
+- [x] 补证 E08 的四份来源证据并区分事件日期与报告发布日期
+- [ ] 刷新仍存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
+- [ ] 补齐 NBS、USD/CNY、GACC 月度长历史及发布滞后尾部；完成 JODI/Comtrade 八国候选口径的 M1 决策
 - [ ] P0 数据审计通过并冻结候选模型
 - [ ] 建模手固定交付物与 M1 质检
 - [ ] 编程手最小可运行结果与 P1/P2 质检
