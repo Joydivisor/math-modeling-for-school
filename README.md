@@ -35,6 +35,7 @@
 - `data/metadata/event_timeline.csv`
 - `data/metadata/data_dictionary.csv`
 - `data/metadata/source_registry.csv`
+- `docs/data_audit_status_20260729.md`（当前审计结论、阻塞和下一执行顺序）
 
 P0 数据准入阈值维护在 `configs/data_audit.yaml`。项目级协作规则见根目录 `AGENTS.md`。
 
@@ -89,8 +90,12 @@ python -m pip install -r requirements.txt
 - [x] EIA 美国库存、全球供需和海湾停产量首轮快照与发布滞后审计
 - [x] 发改委 2026 年 14 轮成品油调价事件、政策缓冲值与生效时点审计
 - [x] 记录霍尔木兹流量公开官方序列缺失及付费/代理备选路线
+- [x] OECD 跨国 GDP/IP/CPI 全区域、状态码、方法学、ragged edge 与内部缺口审计
+- [x] IEA 政策资源三张数组真实解析及“仅类别覆盖、不可直接构造强度指数”语义审计
+- [x] GACC 端点、JODI 2026 快照与 UN Comtrade 2022—2024 HS2709 数据审计
+- [x] NBS 403 UrlACL 与 ChinaMoney 人工导出待办的精确阻塞分类
 - [ ] 刷新存在发布滞后的 Brent、WTI、美元指数和 VIX 尾部观测
-- [ ] P0 数据下载与字段核验
+- [ ] 补齐 NBS、USD/CNY、GACC/JODI/Comtrade 长历史及发布滞后尾部
 - [ ] P0 数据审计通过并冻结候选模型
 - [ ] 建模手固定交付物与 M1 质检
 - [ ] 编程手最小可运行结果与 P1/P2 质检

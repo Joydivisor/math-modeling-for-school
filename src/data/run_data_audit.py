@@ -10,7 +10,10 @@ from typing import Any
 
 from src.data.audit_eia_gulf_pdf import audit_gulf_pdf
 from src.data.audit_eia_snapshot import run_audit as run_eia_audit
+from src.data.audit_iea_policy_snapshot_v2 import run_audit as run_iea_policy_audit
 from src.data.audit_ndrc_snapshot import run_audit as run_ndrc_audit
+from src.data.audit_oecd_snapshot_v2 import run_audit as run_oecd_audit
+from src.data.audit_trade_energy_snapshot import run_audit as run_trade_audit
 from src.data.audit_github_snapshot import (
     AUDIT_COLUMNS,
     AVAILABILITY_COLUMNS,
@@ -24,6 +27,40 @@ from src.data.audit_github_snapshot import (
 )
 
 BLOCKERS_CONFIG = PROJECT_ROOT / "configs" / "data_blockers.json"
+ACCESS_BLOCKERS_CONFIG = (
+    PROJECT_ROOT / "configs" / "data_access_blockers_20260729.json"
+)
+P0_FAIL_NEXT_ACTIONS = {
+    "china_exports": (
+        "Acquire and audit the complete 2010-2026 monthly GACC export "
+        "history; keep the June 2026 workbook as endpoint cross-check."
+    ),
+    "china_crude_import_qty": (
+        "Acquire and audit the complete 2010-2026 monthly GACC crude "
+        "import quantity history in the same physical unit."
+    ),
+    "china_crude_import_value": (
+        "Acquire and audit the complete 2010-2026 monthly GACC crude "
+        "import value history and resolve the comparison-title conflict."
+    ),
+    "peer_cpi": (
+        "Retain USA 2025-10 as missing; obtain an official replacement "
+        "observation or use an explicitly unbalanced-panel method."
+    ),
+    "net_oil_import_dependency": (
+        "Download and audit JODI annual files back to 2010; resolve India "
+        "reporting gaps before computing a common-country panel."
+    ),
+    "supplier_hhi": (
+        "Extend UN Comtrade HS2709 acquisition to 2010-2026 and define "
+        "an explicit NA strategy for no-record and missing-weight cases."
+    ),
+    "policy_response_index": (
+        "Use the IEA snapshot only as qualitative category evidence; "
+        "acquire dated magnitude and implementation fields before any "
+        "transparent index construction."
+    ),
+}
 
 
 def read_dictionary() -> list[dict[str, str]]:
@@ -34,8 +71,15 @@ def read_dictionary() -> list[dict[str, str]]:
 
 
 def read_blockers() -> dict[str, dict[str, Any]]:
-    with BLOCKERS_CONFIG.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+    blockers: dict[str, dict[str, Any]] = {}
+    for path in (BLOCKERS_CONFIG, ACCESS_BLOCKERS_CONFIG):
+        with path.open("r", encoding="utf-8") as handle:
+            current = json.load(handle)
+        overlap = set(blockers) & set(current)
+        if overlap:
+            raise ValueError(f"Duplicate blocker definitions: {sorted(overlap)}")
+        blockers.update(current)
+    return blockers
 
 
 def github_manifest_rows() -> list[dict[str, str]]:
@@ -90,7 +134,10 @@ def combined_availability(
             else:
                 availability_status = "audited_failed"
                 blocker = audit["notes"]
-                next_action = "Replace the source or formally redefine the variable."
+                next_action = P0_FAIL_NEXT_ACTIONS.get(
+                    variable_id,
+                    "Replace the source or formally redefine the variable.",
+                )
         elif variable_id in blockers:
             disposition = blockers[variable_id]
             availability_status = disposition["availability_status"]
@@ -123,16 +170,28 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
     github = run_github_audit(write=write)
     eia = run_eia_audit(write=write)
     gulf = audit_gulf_pdf(write=write)
+    iea_policy = run_iea_policy_audit(write=write)
     ndrc = run_ndrc_audit(write=write)
+    oecd = run_oecd_audit(write=write)
+    trade = run_trade_audit(write=write)
 
     audit_rows = (
-        github["series"] + eia["series"] + gulf["series"] + ndrc["series"]
+        github["series"]
+        + eia["series"]
+        + gulf["series"]
+        + iea_policy["series"]
+        + ndrc["series"]
+        + oecd["series"]
+        + trade["series"]
     )
     manifest_rows = (
         github_manifest_rows()
         + eia["manifest"]
         + gulf["manifest"]
+        + iea_policy["manifest"]
         + ndrc["manifest"]
+        + oecd["manifest"]
+        + trade["manifest"]
     )
     availability_rows = combined_availability(audit_rows, manifest_rows)
     summary = {
@@ -148,7 +207,9 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
         ),
         "p0_fail_count": sum(row["p0_status"] == "FAIL" for row in audit_rows),
         "p0_variable_count": len(availability_rows),
-        "audited_variable_count": len(audit_rows),
+        "audited_variable_count": len(
+            {row["variable_id"] for row in audit_rows}
+        ),
         "not_acquired_count": sum(
             row["availability_status"] == "not_acquired"
             for row in availability_rows
@@ -161,6 +222,20 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
             row["availability_status"] == "blocked_public_access"
             for row in availability_rows
         ),
+        "manual_action_required_count": sum(
+            row["availability_status"]
+            == "acquisition_manual_action_required"
+            for row in availability_rows
+        ),
+        "availability_status_counts": {
+            status: sum(
+                row["availability_status"] == status
+                for row in availability_rows
+            )
+            for status in sorted(
+                {row["availability_status"] for row in availability_rows}
+            )
+        },
         "series": audit_rows,
         "rejected_proxies": gulf["rejected_proxies"],
     }
@@ -184,7 +259,17 @@ def run_combined_audit(write: bool = True) -> dict[str, Any]:
 
         unique_artifacts: dict[str, str] = {}
         for row in manifest_rows:
-            unique_artifacts[row["local_path"]] = row["sha256"]
+            if "collection" not in row["format"]:
+                unique_artifacts[row["local_path"]] = row["sha256"]
+        trade_config_path = (
+            PROJECT_ROOT / "configs" / "trade_energy_snapshot.json"
+        )
+        with trade_config_path.open("r", encoding="utf-8") as handle:
+            trade_config = json.load(handle)
+        comtrade = trade_config["comtrade"]
+        for file_name, digest in comtrade["sha256_by_file"].items():
+            local_path = f"{comtrade['directory']}/{file_name}"
+            unique_artifacts[local_path] = digest
         with (METADATA_DIR / "checksums.sha256").open(
             "w", encoding="utf-8", newline="\n"
         ) as handle:
@@ -208,6 +293,10 @@ def main() -> int:
     print(
         f"P0 external variables blocked by public access: "
         f"{summary['external_blocked_count']}"
+    )
+    print(
+        f"P0 variables requiring manual acquisition: "
+        f"{summary['manual_action_required_count']}"
     )
     print(f"P0 derived variables blocked upstream: {summary['derived_blocked_count']}")
     return (

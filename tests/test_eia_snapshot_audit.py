@@ -41,8 +41,14 @@ class EIASnapshotAuditTests(unittest.TestCase):
 
     def test_combined_disposition_records_public_access_blocker(self) -> None:
         self.assertEqual(36, self.combined["p0_variable_count"])
-        self.assertEqual(18, self.combined["not_acquired_count"])
-        self.assertEqual(1, self.combined["external_blocked_count"])
+        self.assertEqual(0, self.combined["not_acquired_count"])
+        self.assertEqual(9, self.combined["external_blocked_count"])
+        self.assertEqual(1, self.combined["manual_action_required_count"])
+        self.assertEqual(
+            self.combined["p0_variable_count"],
+            sum(self.combined["availability_status_counts"].values()),
+        )
+        self.assertEqual(19, self.combined["audited_variable_count"])
 
     def test_quarterly_gulf_forecast_is_kept_separate(self) -> None:
         self.assertEqual(5.427, self.gulf["quarterly_forecasts_mbd"]["2026-Q3"])

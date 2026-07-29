@@ -1,0 +1,667 @@
+{
+  "snapshot": {
+    "core_areas": [
+      "JPN",
+      "KOR",
+      "DEU",
+      "USA",
+      "IND",
+      "GBR"
+    ]
+  },
+  "artifact_count": 3,
+  "structure_pass_count": 3,
+  "p0_pass_count": 0,
+  "p0_blocked_count": 2,
+  "p0_fail_count": 1,
+  "series": [
+    {
+      "variable_id": "peer_real_gdp",
+      "artifact_id": "OECD_PEER_REAL_GDP_20260729",
+      "series_id": "OECD_DF_QNA_G20_B1GQ_GY",
+      "snapshot_commit": "",
+      "sha256": "58fe823bbdf50e9558d6b85e7309e8ffbc14c652e583542419f4a94ab6312a35",
+      "row_count": "517",
+      "valid_count": "517",
+      "missing_marker_count": "0",
+      "invalid_row_count": "0",
+      "duplicate_date_count": "0",
+      "start_date": "2010-01-01",
+      "last_calendar_row_date": "2026-04-01",
+      "last_valid_date": "2026-01-01",
+      "required_end_date": "2026-04-01",
+      "frequency": "quarterly",
+      "unit": "percent year-on-year real GDP growth",
+      "calendar_row_coverage_ratio": "0.986641",
+      "core_value_coverage_ratio": "0.987374",
+      "event_calendar_coverage_ratio": "0.166667",
+      "event_value_coverage_ratio": "0.166667",
+      "publication_lag_calendar_days": "",
+      "min_value": "-22.89261",
+      "min_value_date": "2020-04-01",
+      "max_value": "25.47821792",
+      "max_value_date": "2021-04-01",
+      "negative_value_count": "50",
+      "structure_status": "PASS",
+      "p0_status": "BLOCKED_RELEASE_LAG",
+      "notes": "Official OECD SDMX snapshot; all requested areas were audited. Core peer areas are JPN|KOR|DEU|USA|IND|GBR and their latest common period is 2026-Q1. Interior missing periods and right-edge release lags are reported separately; raw order is not assumed. Values are already year-on-year real GDP growth; provisional periods are retained and must not be treated as final."
+    },
+    {
+      "variable_id": "peer_industrial_production",
+      "artifact_id": "OECD_PEER_IP_20260729",
+      "series_id": "OECD_DF_INDSERV_PRVM_BTE_Y",
+      "snapshot_commit": "",
+      "sha256": "dcd6c66dfa49b929bdab2794e0195f32fd67e1ed80e5b3ad2c9b9a96a275e4d1",
+      "row_count": "1380",
+      "valid_count": "1380",
+      "missing_marker_count": "0",
+      "invalid_row_count": "0",
+      "duplicate_date_count": "0",
+      "start_date": "2010-01-01",
+      "last_calendar_row_date": "2026-06-01",
+      "last_valid_date": "2026-05-01",
+      "required_end_date": "2026-06-01",
+      "frequency": "monthly",
+      "unit": "index 2015=100",
+      "calendar_row_coverage_ratio": "0.995671",
+      "core_value_coverage_ratio": "0.995791",
+      "event_calendar_coverage_ratio": "0.166667",
+      "event_value_coverage_ratio": "0.166667",
+      "publication_lag_calendar_days": "",
+      "min_value": "49.25198",
+      "min_value_date": "2020-04-01",
+      "max_value": "147.241",
+      "max_value_date": "2026-05-01",
+      "negative_value_count": "0",
+      "structure_status": "PASS",
+      "p0_status": "BLOCKED_RELEASE_LAG",
+      "notes": "Official OECD SDMX snapshot; all requested areas were audited. Core peer areas are JPN|KOR|DEU|USA|IND|GBR and their latest common period is 2026-05. Interior missing periods and right-edge release lags are reported separately; raw order is not assumed."
+    },
+    {
+      "variable_id": "peer_cpi",
+      "artifact_id": "OECD_PEER_CPI_20260729",
+      "series_id": "OECD_DF_G20_PRICES_CPI_GY",
+      "snapshot_commit": "",
+      "sha256": "bb4dda5bf3c4da7b2b22cbd2434358c753aad72ce6573b92657302537ef570f1",
+      "row_count": "1582",
+      "valid_count": "1582",
+      "missing_marker_count": "0",
+      "invalid_row_count": "0",
+      "duplicate_date_count": "0",
+      "start_date": "2010-01-01",
+      "last_calendar_row_date": "2026-06-01",
+      "last_valid_date": "2026-05-01",
+      "required_end_date": "2026-06-01",
+      "frequency": "monthly",
+      "unit": "percent year-on-year CPI change",
+      "calendar_row_coverage_ratio": "0.998737",
+      "core_value_coverage_ratio": "0.998316",
+      "event_calendar_coverage_ratio": "0.833333",
+      "event_value_coverage_ratio": "0.833333",
+      "publication_lag_calendar_days": "",
+      "min_value": "-3.039377",
+      "min_value_date": "2019-02-01",
+      "max_value": "16.21622",
+      "max_value_date": "2010-01-01",
+      "negative_value_count": "109",
+      "structure_status": "PASS",
+      "p0_status": "FAIL",
+      "notes": "Official OECD SDMX snapshot; all requested areas were audited. Core peer areas are JPN|KOR|DEU|USA|IND|GBR and their latest common period is 2026-05. Interior missing periods and right-edge release lags are reported separately; raw order is not assumed. Values are already year-on-year inflation. Germany and the United Kingdom use HICP; other areas use national CPI. USA 2025-10 is an absent row and must remain missing."
+    }
+  ],
+  "manifest": [
+    {
+      "artifact_id": "OECD_PEER_REAL_GDP_20260729",
+      "variable_id": "peer_real_gdp",
+      "source_id": "SRC_OECD_EXPLORER",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA_EXPENDITURE_GROWTH_G20,1.1/Q.Y.CHN+JPN+KOR+DEU+USA+IND+GBR+SAU.S1.S1.B1GQ._Z._Z._Z.PC.L.GY.T0102?startPeriod=2010-Q1&endPeriod=2026-Q2&dimensionAtObservation=AllDimensions&format=csvfile",
+      "local_path": "data/raw/cross_country/oecd_peer_real_gdp_2010Q1_2026Q2_20260729.csv",
+      "retrieved_at_utc": "2026-07-29T14:38:45Z",
+      "sha256": "58fe823bbdf50e9558d6b85e7309e8ffbc14c652e583542419f4a94ab6312a35",
+      "size_bytes": "69800",
+      "format": "csv",
+      "underlying_provider": "Organisation for Economic Co-operation and Development",
+      "distributor": "OECD SDMX API",
+      "license_or_terms": "OECD terms and conditions; cite the dataflow and retrieval date",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Direct official SDMX CSV response with exact endpoint, retrieval time, byte size, SHA-256, requested areas, statuses, and schema."
+    },
+    {
+      "artifact_id": "OECD_PEER_IP_20260729",
+      "variable_id": "peer_industrial_production",
+      "source_id": "SRC_OECD_EXPLORER",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_INDSERV,4.3/JPN+KOR+DEU+USA+IND+GBR+NOR.M.PRVM.IX.BTE.Y._Z._Z.N?startPeriod=2010-01&endPeriod=2026-06&dimensionAtObservation=AllDimensions&format=csvfile",
+      "local_path": "data/raw/cross_country/oecd_peer_industrial_production_2010M01_2026M06_20260729.csv",
+      "retrieved_at_utc": "2026-07-29T14:38:00Z",
+      "sha256": "dcd6c66dfa49b929bdab2794e0195f32fd67e1ed80e5b3ad2c9b9a96a275e4d1",
+      "size_bytes": "132490",
+      "format": "csv",
+      "underlying_provider": "Organisation for Economic Co-operation and Development",
+      "distributor": "OECD SDMX API",
+      "license_or_terms": "OECD terms and conditions; cite the dataflow and retrieval date",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Direct official SDMX CSV response with exact endpoint, retrieval time, byte size, SHA-256, requested areas, statuses, and schema."
+    },
+    {
+      "artifact_id": "OECD_PEER_CPI_20260729",
+      "variable_id": "peer_cpi",
+      "source_id": "SRC_OECD_EXPLORER",
+      "repository": "",
+      "repository_branch": "",
+      "repository_commit": "",
+      "repository_blob_sha": "",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_G20_PRICES@DF_G20_PRICES,1.0/CHN+JPN+KOR+DEU+USA+IND+GBR+SAU.M...PA._T.N.GY?startPeriod=2010-01&endPeriod=2026-06&dimensionAtObservation=AllDimensions&format=csvfile",
+      "local_path": "data/raw/cross_country/oecd_peer_cpi_2010M01_2026M06_20260729.csv",
+      "retrieved_at_utc": "2026-07-29T14:38:53Z",
+      "sha256": "bb4dda5bf3c4da7b2b22cbd2434358c753aad72ce6573b92657302537ef570f1",
+      "size_bytes": "149211",
+      "format": "csv",
+      "underlying_provider": "Organisation for Economic Co-operation and Development",
+      "distributor": "OECD SDMX API",
+      "license_or_terms": "OECD terms and conditions; Germany and the United Kingdom use HICP while other areas use national CPI",
+      "official_byte_identical_at_snapshot": "true",
+      "status": "audited_external_not_committed",
+      "notes": "Direct official SDMX CSV response with exact endpoint, retrieval time, byte size, SHA-256, requested areas, statuses, and schema."
+    }
+  ],
+  "details": [
+    {
+      "variable_id": "peer_real_gdp",
+      "file_row_count": 517,
+      "valid_observation_count": 517,
+      "area_ranges": {
+        "CHN": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "JPN": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "KOR": {
+          "start": "2010-Q1",
+          "end": "2026-Q2",
+          "count": 66
+        },
+        "DEU": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "USA": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "IND": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "GBR": {
+          "start": "2010-Q1",
+          "end": "2026-Q1",
+          "count": 65
+        },
+        "SAU": {
+          "start": "2011-Q1",
+          "end": "2026-Q1",
+          "count": 61
+        }
+      },
+      "latest_common_period": "2026-Q1",
+      "required_period_area_count": 1,
+      "interior_missing_periods_by_area": {
+        "CHN": [],
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [],
+        "GBR": [],
+        "SAU": []
+      },
+      "right_edge_missing_periods_by_area": {
+        "CHN": [
+          "2026-Q2"
+        ],
+        "JPN": [
+          "2026-Q2"
+        ],
+        "KOR": [],
+        "DEU": [
+          "2026-Q2"
+        ],
+        "USA": [
+          "2026-Q2"
+        ],
+        "IND": [
+          "2026-Q2"
+        ],
+        "GBR": [
+          "2026-Q2"
+        ],
+        "SAU": [
+          "2026-Q2"
+        ]
+      },
+      "blank_value_periods_by_area": {
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [],
+        "GBR": []
+      },
+      "status_counts": {
+        "A": 494,
+        "P": 23
+      },
+      "non_normal_status_periods": {
+        "P": [
+          {
+            "area": "DEU",
+            "period": "2026-Q1"
+          },
+          {
+            "area": "KOR",
+            "period": "2026-Q2"
+          },
+          {
+            "area": "KOR",
+            "period": "2026-Q1"
+          },
+          {
+            "area": "KOR",
+            "period": "2025-Q4"
+          },
+          {
+            "area": "KOR",
+            "period": "2025-Q3"
+          },
+          {
+            "area": "KOR",
+            "period": "2025-Q2"
+          },
+          {
+            "area": "KOR",
+            "period": "2025-Q1"
+          },
+          {
+            "area": "DEU",
+            "period": "2025-Q4"
+          },
+          {
+            "area": "DEU",
+            "period": "2025-Q3"
+          },
+          {
+            "area": "DEU",
+            "period": "2025-Q2"
+          },
+          {
+            "area": "DEU",
+            "period": "2025-Q1"
+          },
+          {
+            "area": "DEU",
+            "period": "2024-Q4"
+          },
+          {
+            "area": "DEU",
+            "period": "2024-Q3"
+          },
+          {
+            "area": "DEU",
+            "period": "2024-Q2"
+          },
+          {
+            "area": "DEU",
+            "period": "2024-Q1"
+          },
+          {
+            "area": "DEU",
+            "period": "2023-Q4"
+          },
+          {
+            "area": "DEU",
+            "period": "2023-Q3"
+          },
+          {
+            "area": "DEU",
+            "period": "2023-Q2"
+          },
+          {
+            "area": "DEU",
+            "period": "2023-Q1"
+          },
+          {
+            "area": "DEU",
+            "period": "2022-Q4"
+          },
+          {
+            "area": "DEU",
+            "period": "2022-Q3"
+          },
+          {
+            "area": "DEU",
+            "period": "2022-Q2"
+          },
+          {
+            "area": "DEU",
+            "period": "2022-Q1"
+          }
+        ]
+      },
+      "methodology_by_area": {},
+      "invalid_value_count": 0,
+      "duplicate_key_count": 0,
+      "filter_mismatch_count": 0,
+      "unexpected_area_count": 0
+    },
+    {
+      "variable_id": "peer_industrial_production",
+      "file_row_count": 1380,
+      "valid_observation_count": 1380,
+      "area_ranges": {
+        "JPN": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "KOR": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "DEU": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "USA": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "IND": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "GBR": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "NOR": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        }
+      },
+      "latest_common_period": "2026-05",
+      "required_period_area_count": 1,
+      "interior_missing_periods_by_area": {
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [],
+        "GBR": [],
+        "NOR": []
+      },
+      "right_edge_missing_periods_by_area": {
+        "JPN": [
+          "2026-06"
+        ],
+        "KOR": [
+          "2026-06"
+        ],
+        "DEU": [
+          "2026-06"
+        ],
+        "USA": [],
+        "IND": [
+          "2026-06"
+        ],
+        "GBR": [
+          "2026-06"
+        ],
+        "NOR": [
+          "2026-06"
+        ]
+      },
+      "blank_value_periods_by_area": {
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [],
+        "GBR": []
+      },
+      "status_counts": {
+        "A": 1380
+      },
+      "non_normal_status_periods": {},
+      "methodology_by_area": {
+        "JPN": [
+          "N"
+        ],
+        "NOR": [
+          "N"
+        ],
+        "DEU": [
+          "N"
+        ],
+        "KOR": [
+          "N"
+        ],
+        "IND": [
+          "N"
+        ],
+        "GBR": [
+          "N"
+        ],
+        "USA": [
+          "N"
+        ]
+      },
+      "invalid_value_count": 0,
+      "duplicate_key_count": 0,
+      "filter_mismatch_count": 0,
+      "unexpected_area_count": 0
+    },
+    {
+      "variable_id": "peer_cpi",
+      "file_row_count": 1582,
+      "valid_observation_count": 1582,
+      "area_ranges": {
+        "CHN": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "JPN": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "KOR": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "DEU": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "USA": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 197
+        },
+        "IND": {
+          "start": "2010-01",
+          "end": "2026-05",
+          "count": 197
+        },
+        "GBR": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        },
+        "SAU": {
+          "start": "2010-01",
+          "end": "2026-06",
+          "count": 198
+        }
+      },
+      "latest_common_period": "2026-05",
+      "required_period_area_count": 5,
+      "interior_missing_periods_by_area": {
+        "CHN": [],
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [
+          "2025-10"
+        ],
+        "IND": [],
+        "GBR": [],
+        "SAU": []
+      },
+      "right_edge_missing_periods_by_area": {
+        "CHN": [],
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [
+          "2026-06"
+        ],
+        "GBR": [],
+        "SAU": []
+      },
+      "blank_value_periods_by_area": {
+        "JPN": [],
+        "KOR": [],
+        "DEU": [],
+        "USA": [],
+        "IND": [],
+        "GBR": []
+      },
+      "status_counts": {
+        "A": 1581,
+        "B": 1
+      },
+      "non_normal_status_periods": {
+        "B": [
+          {
+            "area": "SAU",
+            "period": "2011-01"
+          }
+        ]
+      },
+      "methodology_by_area": {
+        "DEU": [
+          "HICP"
+        ],
+        "JPN": [
+          "N"
+        ],
+        "KOR": [
+          "N"
+        ],
+        "GBR": [
+          "HICP"
+        ],
+        "CHN": [
+          "N"
+        ],
+        "USA": [
+          "N"
+        ],
+        "IND": [
+          "N"
+        ],
+        "SAU": [
+          "N"
+        ]
+      },
+      "invalid_value_count": 0,
+      "duplicate_key_count": 0,
+      "filter_mismatch_count": 0,
+      "unexpected_area_count": 0
+    }
+  ],
+  "audit_columns": [
+    "variable_id",
+    "artifact_id",
+    "series_id",
+    "snapshot_commit",
+    "sha256",
+    "row_count",
+    "valid_count",
+    "missing_marker_count",
+    "invalid_row_count",
+    "duplicate_date_count",
+    "start_date",
+    "last_calendar_row_date",
+    "last_valid_date",
+    "required_end_date",
+    "frequency",
+    "unit",
+    "calendar_row_coverage_ratio",
+    "core_value_coverage_ratio",
+    "event_calendar_coverage_ratio",
+    "event_value_coverage_ratio",
+    "publication_lag_calendar_days",
+    "min_value",
+    "min_value_date",
+    "max_value",
+    "max_value_date",
+    "negative_value_count",
+    "structure_status",
+    "p0_status",
+    "notes"
+  ],
+  "manifest_columns": [
+    "artifact_id",
+    "variable_id",
+    "source_id",
+    "repository",
+    "repository_branch",
+    "repository_commit",
+    "repository_blob_sha",
+    "official_url",
+    "download_url",
+    "local_path",
+    "retrieved_at_utc",
+    "sha256",
+    "size_bytes",
+    "format",
+    "underlying_provider",
+    "distributor",
+    "license_or_terms",
+    "official_byte_identical_at_snapshot",
+    "status",
+    "notes"
+  ]
+}
