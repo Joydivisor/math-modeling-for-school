@@ -1,0 +1,70 @@
+{
+  "china_real_gdp": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP, so the official indicator code and 2010Q1-2026Q2 export could not be obtained.",
+    "next_action": "Switch to a network/IP that can access NBS National Data, then export quarterly real-GDP growth or a constant-price index for 2010Q1-2026Q2 to data/raw/nbs/ with the official code, query conditions, unit, value type, adjustment status, workbook metadata, coverage, and SHA-256. Use the 2026Q2 press release only as an endpoint cross-check.",
+    "evidence_urls": [
+      "https://data.stats.gov.cn/easyquery.htm?cn=A01",
+      "https://www.stats.gov.cn/sj/zxfb/202607/t20260716_1964142.html"
+    ],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_industrial_value_added": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly above-designated-size industrial value-added YoY growth for 2010-01 through 2026-06 to data/raw/nbs/ and record the official indicator code, query conditions, unit, value type, adjustment status, workbook metadata, coverage, and SHA-256.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_cpi": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly CPI YoY change for 2010-01 through 2026-06 to data/raw/nbs/ and record the official indicator code, query conditions, unit, value type, adjustment status, workbook metadata, coverage, and SHA-256.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_ppi": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly PPI YoY change for 2010-01 through 2026-06 to data/raw/nbs/ and record the official indicator code, query conditions, unit, value type, adjustment status, workbook metadata, coverage, and SHA-256.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_retail_sales": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly current-period retail-sales values for 2010-01 through 2026-06 to data/raw/nbs/ with full metadata and SHA-256; do not substitute cumulative values.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_fixed_asset_investment": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly fixed-asset-investment cumulative YoY growth for 2010-01 through 2026-06 to data/raw/nbs/ with the exact official scope, code, unit, value type, adjustment status, workbook metadata, coverage, and SHA-256; do not treat cumulative growth as a monthly flow.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_domestic_crude_output": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly current-period crude-oil production for 2010-01 through 2026-06 to data/raw/nbs/ with the official code, physical unit, value type, adjustment status, workbook metadata, coverage, and SHA-256; do not substitute cumulative production.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "china_refinery_throughput": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The NBS National Data page returned 403 Forbidden with reason UrlACL for the current public IP.",
+    "next_action": "Restore access to NBS National Data, then export monthly current-period crude-oil processing for 2010-01 through 2026-06 to data/raw/nbs/ with the official code, physical unit, value type, adjustment status, workbook metadata, coverage, and SHA-256; do not substitute cumulative processing.",
+    "evidence_urls": ["https://data.stats.gov.cn/easyquery.htm?cn=A01"],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  },
+  "usd_cny": {
+    "availability_status": "acquisition_manual_action_required",
+    "blocker": "The ChinaMoney historical central-parity page is reachable and shows the USD/CNY form, but browser automation timed out while editing and exporting; this is not a public-access denial.",
+    "next_action": "On the ChinaMoney historical central-parity page set 2010-01-01 through 2026-07-29 and USD/CNY, click Query and Export Excel, save the untouched workbook under data/raw/fx/, and record the query, file and sheet names, first/last observation, business-day frequency, CNY per USD central-parity unit, adjustment status, dimensions, retrieval time, and SHA-256.",
+    "evidence_urls": [
+      "https://www.chinamoney.com.cn/chinese/bkccpr/index.html?tab=2"
+    ],
+    "reviewed_at_utc": "2026-07-29T15:00:00Z"
+  }
+}

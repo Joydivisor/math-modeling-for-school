@@ -1,0 +1,13 @@
+{
+  "hormuz_flow_mbd": {
+    "availability_status": "blocked_public_access",
+    "blocker": "The public July 2026 IEA OMR overview reports Gulf exports including bypass pipelines, not a February-July Strait of Hormuz flow series. The detailed OMR data product is paid and redistribution-restricted.",
+    "next_action": "Preferred: obtain licensed IEA, Kpler, or Vortexa data. Fallback: construct and rename an AIS tanker-transit proxy with a separate measurement-error analysis; use EIA quarterly chokepoint statistics only as background calibration.",
+    "evidence_urls": [
+      "https://www.iea.org/reports/oil-market-report-July-2026?mode=overview",
+      "https://www.iea.org/data-and-statistics/data-product/oil-market-report-omr",
+      "https://www.iea.org/help-centre/usage-and-rights"
+    ],
+    "reviewed_at_utc": "2026-07-29T13:30:57Z"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "snapshot": {
+    "core_areas": ["JPN", "KOR", "DEU", "USA", "IND", "GBR"]
+  },
+  "series": [
+    {
+      "artifact_id": "OECD_PEER_REAL_GDP_20260729",
+      "variable_id": "peer_real_gdp",
+      "source_id": "SRC_OECD_EXPLORER",
+      "series_id": "OECD_DF_QNA_G20_B1GQ_GY",
+      "path": "data/raw/cross_country/oecd_peer_real_gdp_2010Q1_2026Q2_20260729.csv",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA_EXPENDITURE_GROWTH_G20,1.1/Q.Y.CHN+JPN+KOR+DEU+USA+IND+GBR+SAU.S1.S1.B1GQ._Z._Z._Z.PC.L.GY.T0102?startPeriod=2010-Q1&endPeriod=2026-Q2&dimensionAtObservation=AllDimensions&format=csvfile",
+      "retrieved_at_utc": "2026-07-29T14:38:45Z",
+      "sha256": "58fe823bbdf50e9558d6b85e7309e8ffbc14c652e583542419f4a94ab6312a35",
+      "size_bytes": 69800,
+      "expected_file_row_count": 517,
+      "frequency": "quarterly",
+      "start_period": "2010-Q1",
+      "required_end_period": "2026-Q2",
+      "unit": "percent year-on-year real GDP growth",
+      "expected_areas": ["CHN", "JPN", "KOR", "DEU", "USA", "IND", "GBR", "SAU"],
+      "area_start_periods": {
+        "CHN": "2010-Q1",
+        "JPN": "2010-Q1",
+        "KOR": "2010-Q1",
+        "DEU": "2010-Q1",
+        "USA": "2010-Q1",
+        "IND": "2010-Q1",
+        "GBR": "2010-Q1",
+        "SAU": "2011-Q1"
+      },
+      "expected_status_counts": {"A": 494, "P": 23},
+      "filters": {
+        "FREQ": "Q",
+        "ADJUSTMENT": "Y",
+        "TRANSACTION": "B1GQ",
+        "UNIT_MEASURE": "PC",
+        "PRICE_BASE": "L",
+        "TRANSFORMATION": "GY"
+      },
+      "license_or_terms": "OECD terms and conditions; cite the dataflow and retrieval date"
+    },
+    {
+      "artifact_id": "OECD_PEER_IP_20260729",
+      "variable_id": "peer_industrial_production",
+      "source_id": "SRC_OECD_EXPLORER",
+      "series_id": "OECD_DF_INDSERV_PRVM_BTE_Y",
+      "path": "data/raw/cross_country/oecd_peer_industrial_production_2010M01_2026M06_20260729.csv",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_INDSERV,4.3/JPN+KOR+DEU+USA+IND+GBR+NOR.M.PRVM.IX.BTE.Y._Z._Z.N?startPeriod=2010-01&endPeriod=2026-06&dimensionAtObservation=AllDimensions&format=csvfile",
+      "retrieved_at_utc": "2026-07-29T14:38:00Z",
+      "sha256": "dcd6c66dfa49b929bdab2794e0195f32fd67e1ed80e5b3ad2c9b9a96a275e4d1",
+      "size_bytes": 132490,
+      "expected_file_row_count": 1380,
+      "frequency": "monthly",
+      "start_period": "2010-01",
+      "required_end_period": "2026-06",
+      "unit": "index 2015=100",
+      "expected_areas": ["JPN", "KOR", "DEU", "USA", "IND", "GBR", "NOR"],
+      "area_start_periods": {
+        "JPN": "2010-01",
+        "KOR": "2010-01",
+        "DEU": "2010-01",
+        "USA": "2010-01",
+        "IND": "2010-01",
+        "GBR": "2010-01",
+        "NOR": "2010-01"
+      },
+      "expected_status_counts": {"A": 1380},
+      "expected_methodology_by_area": {
+        "JPN": ["N"],
+        "KOR": ["N"],
+        "DEU": ["N"],
+        "USA": ["N"],
+        "IND": ["N"],
+        "GBR": ["N"],
+        "NOR": ["N"]
+      },
+      "filters": {
+        "FREQ": "M",
+        "MEASURE": "PRVM",
+        "UNIT_MEASURE": "IX",
+        "ACTIVITY": "BTE",
+        "ADJUSTMENT": "Y",
+        "METHODOLOGY": "N"
+      },
+      "license_or_terms": "OECD terms and conditions; cite the dataflow and retrieval date"
+    },
+    {
+      "artifact_id": "OECD_PEER_CPI_20260729",
+      "variable_id": "peer_cpi",
+      "source_id": "SRC_OECD_EXPLORER",
+      "series_id": "OECD_DF_G20_PRICES_CPI_GY",
+      "path": "data/raw/cross_country/oecd_peer_cpi_2010M01_2026M06_20260729.csv",
+      "official_url": "https://data-explorer.oecd.org/",
+      "download_url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_G20_PRICES@DF_G20_PRICES,1.0/CHN+JPN+KOR+DEU+USA+IND+GBR+SAU.M...PA._T.N.GY?startPeriod=2010-01&endPeriod=2026-06&dimensionAtObservation=AllDimensions&format=csvfile",
+      "retrieved_at_utc": "2026-07-29T14:38:53Z",
+      "sha256": "bb4dda5bf3c4da7b2b22cbd2434358c753aad72ce6573b92657302537ef570f1",
+      "size_bytes": 149211,
+      "expected_file_row_count": 1582,
+      "frequency": "monthly",
+      "start_period": "2010-01",
+      "required_end_period": "2026-06",
+      "unit": "percent year-on-year CPI change",
+      "expected_areas": ["CHN", "JPN", "KOR", "DEU", "USA", "IND", "GBR", "SAU"],
+      "area_start_periods": {
+        "CHN": "2010-01",
+        "JPN": "2010-01",
+        "KOR": "2010-01",
+        "DEU": "2010-01",
+        "USA": "2010-01",
+        "IND": "2010-01",
+        "GBR": "2010-01",
+        "SAU": "2010-01"
+      },
+      "expected_status_counts": {"A": 1581, "B": 1},
+      "expected_methodology_by_area": {
+        "CHN": ["N"],
+        "JPN": ["N"],
+        "KOR": ["N"],
+        "DEU": ["HICP"],
+        "USA": ["N"],
+        "IND": ["N"],
+        "GBR": ["HICP"],
+        "SAU": ["N"]
+      },
+      "expected_interior_missing_by_area": {
+        "USA": ["2025-10"]
+      },
+      "filters": {
+        "FREQ": "M",
+        "MEASURE": "CPI",
+        "UNIT_MEASURE": "PA",
+        "ADJUSTMENT": "N",
+        "TRANSFORMATION": "GY"
+      },
+      "license_or_terms": "OECD terms and conditions; Germany and the United Kingdom use HICP while other areas use national CPI"
+    }
+  ]
+}

@@ -61,6 +61,69 @@ EXPECTED_COLUMNS = {
         "status",
         "notes",
     ],
+    "download_manifest.csv": [
+        "artifact_id",
+        "variable_id",
+        "source_id",
+        "repository",
+        "repository_branch",
+        "repository_commit",
+        "repository_blob_sha",
+        "official_url",
+        "download_url",
+        "local_path",
+        "retrieved_at_utc",
+        "sha256",
+        "size_bytes",
+        "format",
+        "underlying_provider",
+        "distributor",
+        "license_or_terms",
+        "official_byte_identical_at_snapshot",
+        "status",
+        "notes",
+    ],
+    "audit_results.csv": [
+        "variable_id",
+        "artifact_id",
+        "series_id",
+        "snapshot_commit",
+        "sha256",
+        "row_count",
+        "valid_count",
+        "missing_marker_count",
+        "invalid_row_count",
+        "duplicate_date_count",
+        "start_date",
+        "last_calendar_row_date",
+        "last_valid_date",
+        "required_end_date",
+        "frequency",
+        "unit",
+        "calendar_row_coverage_ratio",
+        "core_value_coverage_ratio",
+        "event_calendar_coverage_ratio",
+        "event_value_coverage_ratio",
+        "publication_lag_calendar_days",
+        "min_value",
+        "min_value_date",
+        "max_value",
+        "max_value_date",
+        "negative_value_count",
+        "structure_status",
+        "p0_status",
+        "notes",
+    ],
+    "data_availability.csv": [
+        "variable_id",
+        "question",
+        "priority",
+        "source_id",
+        "artifact_id",
+        "availability_status",
+        "blocker",
+        "next_action",
+    ],
 }
 
 
@@ -272,6 +335,139 @@ def validate_timeline(source_ids: set[str]) -> list[ValidationIssue]:
     return issues
 
 
+def validate_audit_outputs(source_ids: set[str]) -> list[ValidationIssue]:
+    issues: list[ValidationIssue] = []
+    _, dictionary = read_csv("data_dictionary.csv")
+    _, availability = read_csv("data_availability.csv")
+    _, manifest = read_csv("download_manifest.csv")
+    _, audits = read_csv("audit_results.csv")
+
+    expected_p0 = {
+        row["variable_id"] for row in dictionary if row["priority"] == "P0"
+    }
+    available_p0 = {row["variable_id"] for row in availability}
+    if expected_p0 != available_p0:
+        issues.append(
+            ValidationIssue(
+                "data_availability.csv",
+                None,
+                "P0 variable disposition set differs from data_dictionary.csv",
+            )
+        )
+    for value in duplicate_values(availability, "variable_id"):
+        issues.append(
+            ValidationIssue(
+                "data_availability.csv",
+                None,
+                f"duplicate variable_id {value}",
+            )
+        )
+
+    manifest_ids = {row["artifact_id"] for row in manifest}
+    for value in duplicate_values(manifest, "artifact_id"):
+        issues.append(
+            ValidationIssue("download_manifest.csv", None, f"duplicate artifact_id {value}")
+        )
+    for row_number, row in enumerate(manifest, start=2):
+        if row["source_id"] not in source_ids:
+            issues.append(
+                ValidationIssue(
+                    "download_manifest.csv",
+                    row_number,
+                    f"unknown source_id {row['source_id']!r}",
+                )
+            )
+        if len(row["sha256"]) != 64 or any(
+            char not in "0123456789abcdef" for char in row["sha256"].lower()
+        ):
+            issues.append(
+                ValidationIssue(
+                    "download_manifest.csv", row_number, "invalid SHA-256"
+                )
+            )
+        if not is_http_url(row["official_url"]) or not is_http_url(
+            row["download_url"]
+        ):
+            issues.append(
+                ValidationIssue(
+                    "download_manifest.csv",
+                    row_number,
+                    "official_url and download_url must be HTTP(S)",
+                )
+            )
+        if not row["retrieved_at_utc"] or not row["license_or_terms"]:
+            issues.append(
+                ValidationIssue(
+                    "download_manifest.csv",
+                    row_number,
+                    "retrieved_at_utc and license_or_terms are required",
+                )
+            )
+        raw_is_intentionally_untracked = (
+            row["status"] == "audited_external_not_committed"
+        )
+        if (
+            not raw_is_intentionally_untracked
+            and not (PROJECT_ROOT / row["local_path"]).exists()
+        ):
+            issues.append(
+                ValidationIssue(
+                    "download_manifest.csv",
+                    row_number,
+                    f"missing local artifact {row['local_path']!r}",
+                )
+            )
+
+    for value in duplicate_values(audits, "artifact_id"):
+        issues.append(
+            ValidationIssue("audit_results.csv", None, f"duplicate artifact_id {value}")
+        )
+    for row_number, row in enumerate(audits, start=2):
+        if row["artifact_id"] not in manifest_ids:
+            issues.append(
+                ValidationIssue(
+                    "audit_results.csv",
+                    row_number,
+                    f"unknown artifact_id {row['artifact_id']!r}",
+                )
+            )
+        if row["structure_status"] not in {"PASS", "FAIL"}:
+            issues.append(
+                ValidationIssue(
+                    "audit_results.csv",
+                    row_number,
+                    f"invalid structure_status {row['structure_status']!r}",
+                )
+            )
+        if row["p0_status"] not in {"PASS", "FAIL", "BLOCKED_RELEASE_LAG"}:
+            issues.append(
+                ValidationIssue(
+                    "audit_results.csv",
+                    row_number,
+                    f"invalid p0_status {row['p0_status']!r}",
+                )
+            )
+        for key in (
+            "calendar_row_coverage_ratio",
+            "core_value_coverage_ratio",
+            "event_calendar_coverage_ratio",
+            "event_value_coverage_ratio",
+        ):
+            try:
+                value = float(row[key])
+            except ValueError:
+                value = -1.0
+            if not 0.0 <= value <= 1.0:
+                issues.append(
+                    ValidationIssue(
+                        "audit_results.csv",
+                        row_number,
+                        f"{key} must be between 0 and 1",
+                    )
+                )
+    return issues
+
+
 def collect_issues() -> list[ValidationIssue]:
     issues = validate_headers()
     if issues:
@@ -280,6 +476,7 @@ def collect_issues() -> list[ValidationIssue]:
     issues.extend(source_issues)
     issues.extend(validate_dictionary(source_ids))
     issues.extend(validate_timeline(source_ids))
+    issues.extend(validate_audit_outputs(source_ids))
     return issues
 
 

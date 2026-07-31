@@ -1,0 +1,59 @@
+{
+  "artifact_id": "IEA_POLICY_COVERAGE_20260729",
+  "variable_id": "policy_response_index",
+  "source_id": "SRC_IEA_POLICY_TRACKER",
+  "series_id": "IEA_2026_ENERGY_CRISIS_SELECTED_MEASURES",
+  "path": "data/raw/cross_country/iea_2026_energy_crisis_policy_response_20260729.js",
+  "official_url": "https://www.iea.org/data-and-statistics/data-tools/2026-energy-crisis-policy-response-tracker",
+  "download_url": "https://iea.blob.core.windows.net/scripts/2026-energy-crisis-policy-response/2026-energy-crisis-policy-response.js",
+  "retrieved_at_utc": "2026-07-29T14:38:44Z",
+  "sha256": "0ac0a5c58693f5deda7f3d6d5faa653f39744c5453feb299b66bd515397cf16e",
+  "size_bytes": 98666,
+  "expected_distinct_country_count": 114,
+  "expected_tables": {
+    "energy_conservation": {
+      "start_marker": "const fn =",
+      "end_marker": ", gn =",
+      "row_count": 59,
+      "country_count": 58,
+      "policy_cell_count": 348,
+      "nonempty_policy_cell_count": 117,
+      "required_labels": [
+        "Work from home",
+        "Cooling",
+        "Government travel",
+        "Schools and universities",
+        "Campaign",
+        "Transport"
+      ]
+    },
+    "consumer_support": {
+      "start_marker": "gn =",
+      "end_marker": ", mn =",
+      "row_count": 93,
+      "country_count": 92,
+      "policy_cell_count": 368,
+      "nonempty_policy_cell_count": 151,
+      "required_labels": [
+        "Price caps",
+        "Fuel subsidies",
+        "Taxation",
+        "Other"
+      ]
+    },
+    "structural_policies": {
+      "start_marker": "mn =",
+      "end_marker": "], U =",
+      "row_count": 29,
+      "country_count": 28,
+      "policy_cell_count": 84,
+      "nonempty_policy_cell_count": 41,
+      "required_labels": [
+        "Energy efficiency",
+        "Electrification",
+        "Other"
+      ]
+    }
+  },
+  "license_or_terms": "IEA terms and usage rights; retain locally for audit and do not redistribute without checking permissions"
+}

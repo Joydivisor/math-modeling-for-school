@@ -1,0 +1,89 @@
+{
+    "snapshot":  {
+                     "retrieved_at_utc":  "2026-07-29T13:12:04Z",
+                     "data_cutoff":  "2026-07-29",
+                     "event_start_month":  "2026-02",
+                     "event_end_month":  "2026-07",
+                     "core_start_month":  "2010-01",
+                     "core_minimum_ratio":  0.95,
+                     "event_minimum_ratio":  1.0
+                 },
+    "artifacts":  {
+                      "inventory":  {
+                                        "path":  "data/raw/eia/WCESTUS1w.xls",
+                                        "artifact_id":  "EIA_WCESTUS1W_20260729",
+                                        "variable_id":  "us_crude_inventory",
+                                        "source_id":  "SRC_EIA_API",
+                                        "series_id":  "WCESTUS1",
+                                        "official_url":  "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=PET\u0026s=WCESTUS1\u0026f=W",
+                                        "download_url":  "https://www.eia.gov/dnav/pet/hist_xls/WCESTUS1w.xls",
+                                        "sha256":  "52eb5f5464f417841f0070184263cc317338e88ef15823bda4088b7a98133805",
+                                        "size_bytes":  129536,
+                                        "format":  "xls",
+                                        "unit":  "thousand barrels",
+                                        "required_end":  "2026-07-29",
+                                        "license_or_terms":  "EIA Copyrights and Reuse policy; official U.S. government data"
+                                    },
+                      "steo_bulk":  {
+                                        "path":  "data/raw/eia/STEO.zip",
+                                        "official_url":  "https://www.eia.gov/opendata/bulk-downloads.php",
+                                        "download_url":  "https://www.eia.gov/opendata/bulk/STEO.zip",
+                                        "sha256":  "a76fdf70a9106985b8235e3f4f20e48168f37233e421c67d0b39f3e3f532b454",
+                                        "size_bytes":  5545296,
+                                        "format":  "zip_jsonl",
+                                        "license_or_terms":  "EIA Copyrights and Reuse policy; official U.S. government data"
+                                    },
+                      "steo_report":  {
+                                          "path":  "data/raw/eia/jul26.pdf",
+                                          "artifact_id":  "EIA_STEO_JUL26_TABLE1_20260729",
+                                          "variable_id":  "gulf_shut_in_mbd",
+                                          "source_id":  "SRC_EIA_STEO_JUL",
+                                          "series_id":  "EIA_STEO_JUL26_TABLE1_TOTAL",
+                                          "official_url":  "https://www.eia.gov/outlooks/steo/archives/jul26.pdf",
+                                          "download_url":  "https://www.eia.gov/outlooks/steo/archives/jul26.pdf",
+                                          "sha256":  "c1a0d6814be9ee54241b7eb650b26d3c1b1d1483f70f9b5021fd975b05f7d251",
+                                          "size_bytes":  5346044,
+                                          "format":  "pdf",
+                                          "unit":  "thousand barrels per day",
+                                          "required_end":  "2026-07-01",
+                                          "pdf_page_index":  4,
+                                          "observations_mbd":  {
+                                                                   "2026-03":  8.89,
+                                                                   "2026-04":  10.4,
+                                                                   "2026-05":  11.2,
+                                                                   "2026-06":  8.29
+                                                               },
+                                          "quarterly_forecasts_mbd":  {
+                                                                          "2026-Q3":  5.427,
+                                                                          "2026-Q4":  1.44
+                                                                      },
+                                          "license_or_terms":  "EIA Copyrights and Reuse policy; official U.S. government data"
+                                      }
+                  },
+    "series":  [
+                   {
+                       "artifact_id":  "EIA_STEO_PAPR_WORLD_M_20260729",
+                       "variable_id":  "global_oil_supply",
+                       "source_id":  "SRC_EIA_API",
+                       "series_id":  "STEO.PAPR_WORLD.M",
+                       "expected_name":  "Total World Petroleum Production, Monthly",
+                       "unit":  "million barrels per day",
+                       "required_end":  "2026-07-01"
+                   },
+                   {
+                       "artifact_id":  "EIA_STEO_PATC_WORLD_M_20260729",
+                       "variable_id":  "global_oil_demand",
+                       "source_id":  "SRC_EIA_API",
+                       "series_id":  "STEO.PATC_WORLD.M",
+                       "expected_name":  "Liquid Fuels Consumption, Total World, Monthly",
+                       "unit":  "million barrels per day",
+                       "required_end":  "2026-07-01"
+                   }
+               ],
+    "rejected_proxies":  [
+                             {
+                                 "series_id":  "STEO.PADI_NONOPEC.M",
+                                 "reason":  "Non-OPEC unplanned disruptions are not Strait of Hormuz closure-related Gulf crude shut-ins and must not be relabeled as the target variable."
+                             }
+                         ]
+}

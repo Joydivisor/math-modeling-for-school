@@ -1,0 +1,94 @@
+{
+    "gacc":  {
+                 "official_page_date":  "2026-07-15",
+                 "files":  {
+                               "total_exports_imports":  {
+                                                             "path":  "data/raw/trade_energy/gacc_2026-06_total_exports_imports_cny.xls",
+                                                             "official_url":  "https://english.customs.gov.cn/Statics/142befa2-8638-4657-89d1-40209514b007.html",
+                                                             "download_url":  "http://english.customs.gov.cn/Excel/1_1-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_CNY25.xls",
+                                                             "retrieved_at_utc":  "2026-07-29T15:04:55Z",
+                                                             "sha256":  "402fd8c93b63548fbf779c91e921f8c8294bfc9a872e5f6d66d68797a98ec3b2",
+                                                             "size_bytes":  9216
+                                                         },
+                               "major_imports":  {
+                                                     "path":  "data/raw/trade_energy/gacc_2026-06_major_imports_cny.xls",
+                                                     "official_url":  "https://english.customs.gov.cn/Statics/1440a39c-d651-4cec-b326-d4e2ab3d0f93.html",
+                                                     "download_url":  "http://english.customs.gov.cn/Excel/1_11-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06_cny45.xls",
+                                                     "retrieved_at_utc":  "2026-07-29T14:46:45Z",
+                                                     "sha256":  "4f1e2c817bbda5d2ec5f3ededb987f562d25a3871fd488fab2d7eb8e349a9e6a",
+                                                     "size_bytes":  16896
+                                                 },
+                               "major_exports":  {
+                                                     "path":  "data/raw/trade_energy/gacc_2026-06_major_exports_cny.xls",
+                                                     "official_url":  "https://english.customs.gov.cn/Statics/0549e67d-b68f-4258-b848-01396e12b49e.html",
+                                                     "download_url":  "http://english.customs.gov.cn/Excel/1_9-en-%E4%BA%BA%E6%B0%91%E5%B8%81-2026-06-CNY45.xls",
+                                                     "retrieved_at_utc":  "2026-07-29T14:46:45Z",
+                                                     "sha256":  "eee6d723c80b5faa4f27463db41cefa101fb5075ebc817f557085b913c208f50",
+                                                     "size_bytes":  16384
+                                                 }
+                           }
+             },
+    "jodi":  {
+                 "official_url":  "https://www.jodidata.org/oil/database/data-downloads.aspx",
+                 "terms_url":  "https://www.jodidata.org/terms-of-use.aspx",
+                 "files":  {
+                               "primary":  {
+                                               "path":  "data/raw/trade_energy/jodi_oil_primary_2026.csv",
+                                               "download_url":  "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/primary/primaryyear2026.csv",
+                                               "retrieved_at_utc":  "2026-07-29T14:47:52Z",
+                                               "sha256":  "8da29e886eb313762371a38ac3c348cab47fe52a8afd71a0c051e1a05b1bfe09",
+                                               "size_bytes":  3963616,
+                                               "row_count":  96000,
+                                               "missing_dash_count":  38668,
+                                               "missing_x_count":  3840,
+                                               "missing_dotdot_count":  8190
+                                           },
+                               "secondary":  {
+                                                 "path":  "data/raw/trade_energy/jodi_oil_secondary_2026.csv",
+                                                 "download_url":  "https://www.jodidata.org/_resources/files/downloads/oil-data/annual-csv/secondary/secondaryyear2026.csv",
+                                                 "retrieved_at_utc":  "2026-07-29T14:51:01Z",
+                                                 "sha256":  "28b659c1d30501e2fa3b1d98abf4ccc18c3d885ad9b919af6ae99a36e4af0168",
+                                                 "size_bytes":  9001018,
+                                                 "row_count":  216000,
+                                                 "missing_dash_count":  76738,
+                                                 "missing_x_count":  8640,
+                                                 "missing_dotdot_count":  6075
+                                             }
+                           },
+                 "expected_may_2026_dependency":  {
+                                                      "CN":  {
+                                                                 "crude":  0.637865,
+                                                                 "broad":  0.638421
+                                                             },
+                                                      "JP":  {
+                                                                 "crude":  0.659213,
+                                                                 "broad":  0.804805
+                                                             },
+                                                      "KR":  {
+                                                                 "crude":  1.010025,
+                                                                 "broad":  0.970782
+                                                             },
+                                                      "DE":  {
+                                                                 "crude":  0.975078,
+                                                                 "broad":  0.872769
+                                                             },
+                                                      "US":  {
+                                                                 "crude":  0.034732,
+                                                                 "broad":  -0.265524
+                                                             },
+                                                      "GB":  {
+                                                                 "crude":  0.424339,
+                                                                 "broad":  0.540482
+                                                             },
+                                                      "SA":  {
+                                                                 "crude":  -1.439229,
+                                                                 "broad":  -1.576678
+                                                             },
+                                                      "NO":  {
+                                                                 "crude":  -7.335823,
+                                                                 "broad":  -6.914008
+                                                             }
+                                                  },
+                 "incomplete_area":  "IN"
+             }
+}
